@@ -2,11 +2,11 @@
 // Sourced from Pete Zerger Exam Cram PDFs (1:5 through 5:5)
 
 window.SECPLUS_PDFS = [
-  { id: 1, file: "pdfs/1-general-security-concepts.pdf", title: "Domain 1 — General Security Concepts", domain: 1, pages: 134 },
-  { id: 2, file: "pdfs/2-threats-vulnerabilities.pdf", title: "Domain 2 — Threats, Vulnerabilities & Mitigations", domain: 2, pages: 185 },
-  { id: 3, file: "pdfs/3-security-architecture.pdf", title: "Domain 3 — Security Architecture & Design", domain: 3, pages: 158 },
-  { id: 4, file: "pdfs/4-security-operations.pdf", title: "Domain 4 — Security Operations / Implementation", domain: 4, pages: 275 },
-  { id: 5, file: "pdfs/5-governance-risk-compliance.pdf", title: "Domain 5 — Governance, Risk & Compliance", domain: 6, pages: 126 }
+  { id: 1, file: "pdfs/1-general-security-concepts.pdf", title: "Domain 1 — General Security Concepts (12%))", domain: 1, pages: 134 },
+  { id: 2, file: "pdfs/2-threats-vulnerabilities.pdf", title: "Domain 2 — Threats, Vulnerabilities & mitigations (22%)", domain: 2, pages: 185 },
+  { id: 3, file: "pdfs/3-security-architecture.pdf", title: "Domain 3 — Security Architecture (18%)", domain: 3, pages: 158 },
+  { id: 4, file: "pdfs/4-security-operations.pdf", title: "Domain 4 — Security Operations (28%)", domain: 4, pages: 275 },
+  { id: 5, file: "pdfs/5-governance-risk-compliance.pdf", title: "Domain 5 — Security Program Manangement and Oversight (20%)", domain: 5, pages: 126 }
 ];
 
 window.SECPLUS_STUDY_GUIDE = {
