@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security+ Domain 2 Flashcards</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #000000;
+    color: #00ff00;
+    margin: 0;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+  }
+  #app { max-width: 480px; width: 100%; display:flex; flex-direction:column; gap:1rem; background:#000000; color:#00ff00; padding:1rem; border-radius:12px; }
+  button {
+    font-family: inherit;
+    font-size: 14px;
+    padding: 0.6rem;
+    border-radius: 8px;
+    cursor: pointer;
+    background:#0a0a0a; color:#00ff00; border:0.5px solid #00aa00;
+  }
+  button:hover { background: #001a00 !important; }
+  .sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    margin: -1px; padding: 0; overflow: hidden;
+    clip: rect(0,0,0,0); white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+<h2 class="sr-only">Flashcard study widget for Security+ SY0-701 Domain 2 covering threats, vulnerabilities, attacks, and mitigations</h2>
+<div id="app">
+  <div style="display:flex; justify-content:space-between; align-items:center;">
+    <span id="counter" style="font-size:13px; color:#00cc00;">Card 1 of 1</span>
+    <span id="tagbadge" style="font-size:12px; padding:4px 10px; border-radius:8px; background:#0a0a0a; color:#00ff00; border:0.5px solid #00aa00;"></span>
+  </div>
+
+  <div id="card" style="background:#0a0a0a; border:0.5px solid #00aa00; border-radius:12px; padding:1.5rem; min-height:160px; display:flex; align-items:center; justify-content:center; text-align:center; cursor:pointer;">
+    <p id="cardtext" style="font-size:16px; font-weight:500; margin:0; line-height:1.7; color:#00ff00;"></p>
+  </div>
+
+  <p id="hint" style="text-align:center; font-size:13px; color:#009900; margin:0;">Tap card to flip</p>
+
+  <div style="display:flex; gap:8px;">
+    <button id="prev" style="flex:1;"><i class="ti ti-arrow-left" aria-hidden="true" style="vertical-align:-2px; margin-right:4px;"></i>Prev</button>
+    <button id="shuffle" style="flex:1;"><i class="ti ti-refresh" aria-hidden="true" style="vertical-align:-2px; margin-right:4px;"></i>Shuffle</button>
+    <button id="next" style="flex:1;">Next<i class="ti ti-arrow-right" aria-hidden="true" style="vertical-align:-2px; margin-left:4px;"></i></button>
+  </div>
+</div>
+
+<script>
+const cards = [
+{f:"What are the six categories of threat actors?",b:"Nation-state, Unskilled attacker, Hacktivist, Insider threat, Organized crime, Shadow IT",t:"2.1 Threat Actors"},
+{f:"Which threat actor type is a country's government using cyberattacks?",b:"Nation-state",t:"2.1 Threat Actors"},
+{f:"Which threat actor has limited technical knowledge and may attack out of curiosity?",b:"Unskilled attacker",t:"2.1 Threat Actors"},
+{f:"Which threat actor uses cyberattacks to promote a political or social cause?",b:"Hacktivist",t:"2.1 Threat Actors"},
+{f:"Which threat actor is an authorized internal user who misuses access?",b:"Insider threat",t:"2.1 Threat Actors"},
+{f:"Which threat actor uses cyberattacks primarily for financial gain via syndicates?",b:"Organized crime",t:"2.1 Threat Actors"},
+{f:"What is Shadow IT?",b:"Employees using unauthorized/unmanaged IT resources, creating exploitable risk",t:"2.1 Threat Actors"},
+{f:"List the threat actor attribute categories.",b:"Internal/external, Resources/funding, Level of sophistication/capability",t:"2.1 Attributes"},
+{f:"List common attacker motivations (Security+ exam).",b:"Data exfiltration, Espionage, Service disruption, Blackmail, Financial gain, Philosophical/political beliefs, Ethical, Revenge, Disruption/chaos, War",t:"2.1 Motivations"},
+{f:"What is the goal of espionage as a motivation?",b:"Stealing confidential information from another organization, often via nation-states or corporations",t:"2.1 Motivations"},
+{f:"What is ethical hacking?",b:"Authorized simulated attacks by security researchers to find vulnerabilities and improve security posture",t:"2.1 Motivations"},
+{f:"What is cyberwarfare?",b:"War waged through cyberattacks by military or civilian groups to disrupt enemy operations",t:"2.1 Motivations"},
+{f:"Which threat actor has high skill and high resources/government backing, motivated by espionage?",b:"Nation-state",t:"2.1 Actor Profiles"},
+{f:"Which threat actor uses automated tools and limited knowledge, often via phishing?",b:"Unskilled attacker",t:"2.1 Actor Profiles"},
+{f:"Which threat actor combination is the MOST dangerous to an organization?",b:"High skill + High funding",t:"2.1 Skill/Funding Impact"},
+{f:"Which threat actor combination is least dangerous (but still a threat)?",b:"Low skill + Low funding",t:"2.1 Skill/Funding Impact"},
+{f:"What is a threat vector?",b:"A method or combination of methods attackers use to gain unauthorized access — the pathway to exploit a vulnerability",t:"2.2 Definitions"},
+{f:"What is an attack surface?",b:"The sum total of all possible entry points an attacker can exploit on a system",t:"2.2 Definitions"},
+{f:"In the castle analogy, what represents the attack surface vs threat vector?",b:"Attack surface = the entire castle and all its weaknesses; threat vector = one specific way to breach it",t:"2.2 Analogy"},
+{f:"List the message-based threat vector types.",b:"Email, SMS, Instant Messaging (IM)",t:"2.2 Message-Based"},
+{f:"What threat does steganography pose as an image-based vector?",b:"Hiding malware within images to evade detection",t:"2.2 Image-Based"},
+{f:"Why are AI voice deepfakes relevant to voice call threat vectors?",b:"They make 'stop and verify' procedures a necessity to counter vishing/impersonation",t:"2.2 Voice Call"},
+{f:"What's the difference between client-based and agentless vulnerable software?",b:"Client-based requires a local app/agent installed; agentless doesn't need a separate agent, has less attack surface but less configurability and patching options",t:"2.2 Vulnerable Software"},
+{f:"What mitigates risk from unsupported systems and applications?",b:"Network segmentation and/or isolation",t:"2.2 Unsupported Systems"},
+{f:"What are the three unsecure network types listed for Domain 2?",b:"Wireless, Wired, Bluetooth",t:"2.2 Unsecure Networks"},
+{f:"What is the primary risk of open service ports?",b:"Attackers exploiting vulnerabilities in exposed services running on unnecessary open ports",t:"2.2 Open Ports"},
+{f:"What is the risk of default credentials?",b:"Brute-force attacks guessing factory default usernames/passwords left unchanged",t:"2.2 Default Credentials"},
+{f:"What are the supply chain risk categories?",b:"Managed Service Providers (MSPs), Vendors, Suppliers",t:"2.2 Supply Chain"},
+{f:"List the principles of social engineering (persuasion principles).",b:"Authority, Intimidation, Consensus, Scarcity, Familiarity/liking, Trust, Urgency",t:"2.2 Social Engineering"},
+{f:"Which social engineering principle involves citing position/responsibility to make a request?",b:"Authority",t:"2.2 Social Engineering"},
+{f:"Which social engineering principle claims a peer already did the same task?",b:"Consensus",t:"2.2 Social Engineering"},
+{f:"What is the difference between spear phishing and whaling?",b:"Spear phishing targets specific groups of users; whaling targets high-level executives",t:"2.2 Phishing"},
+{f:"What is vishing vs smishing?",b:"Vishing = voice/phone-based phishing; Smishing = SMS/text-based phishing",t:"2.2 Phishing"},
+{f:"What is pretexting?",b:"An attacker invents a story/scenario (pretext) to convince a victim to give up information or access",t:"2.2 Pretexting"},
+{f:"What is typosquatting also known as?",b:"URL hijacking — registering domains with slight misspellings of popular sites",t:"2.2 Typosquatting"},
+{f:"Define vulnerability, threat, exploit, and attack.",b:"Vulnerability = a weakness; Threat = potential event that could exploit it; Exploit = method/tool to take advantage of it; Attack = the actual attempt to exploit it",t:"2.3 Core Terms"},
+{f:"In the house analogy, what is the vulnerability, threat, exploit, and attack?",b:"Weak lock = vulnerability; burglar = threat; crowbar = exploit; breaking in = attack",t:"2.3 Analogy"},
+{f:"What is a buffer overflow?",b:"Code doesn't validate user input size, allowing data to overflow its allocated memory buffer; prevent with input validation",t:"2.3 Buffer Overflow"},
+{f:"What is memory injection?",b:"Maliciously inserting information into memory — the primary goal of a buffer overflow attack",t:"2.3 Buffer Overflow"},
+{f:"What is an integer overflow?",b:"An arithmetic error where an integer operation's result doesn't fit its allocated memory space, causing unexpected results",t:"2.3 Integer Overflow"},
+{f:"What countermeasures help prevent integer overflow?",b:"Secure coding practices, proper variable typing, using larger variable types (e.g., long, long int)",t:"2.3 Integer Overflow"},
+{f:"Define Time-of-Check (TOC) and Time-of-Use (TOU).",b:"TOC = moment a system verifies access permissions; TOU = moment the system actually uses/accesses the resource",t:"2.3 Race Conditions"},
+{f:"What is a TOCTOU vulnerability?",b:"A timing vulnerability where a program checks access permissions too far in advance of the resource request",t:"2.3 Race Conditions"},
+{f:"What is a malicious update attack and its mitigation?",b:"An attacker deploys a fake patch to compromise a system; mitigated by code signing and only accepting signed updates",t:"2.3 Malicious Updates"},
+{f:"What OS-based vulnerability allows attackers to gain higher privileges than intended?",b:"Privilege escalation — mitigated by requiring auth to elevate (UAC, sudo)",t:"2.3 OS Vulnerabilities"},
+{f:"What is a zero-day vulnerability?",b:"A vulnerability unknown to the vendor (or known only to a limited group), with no patch available — very dangerous",t:"2.3 Zero-Day"},
+{f:"What is SQL injection?",b:"Using unexpected input to a web app to gain unauthorized access to the underlying database",t:"2.3 Web-Based Threats"},
+{f:"What are the countermeasures for SQL injection?",b:"Input validation, stored procedures, limiting account privileges, and WAF",t:"2.3 Web-Based Threats"},
+{f:"What is cross-site scripting (XSS)?",b:"Injection of malicious scripts into trusted websites, often through input fields, executed against other end users",t:"2.3 Web-Based Threats"},
+{f:"What defenses mitigate XSS?",b:"Input validation and filtering, validating both data length and data type",t:"2.3 Web-Based Threats"},
+{f:"What hardware control helps prevent firmware attacks?",b:"A TPM (Trusted Platform Module) to facilitate a secure boot process",t:"2.3 Hardware Vulnerabilities"},
+{f:"What is the exam definition of 'legacy' hardware/software?",b:"Hardware, software, or devices that are unsupported",t:"2.3 Hardware Vulnerabilities"},
+{f:"What is VM escape?",b:"An attacker gains access to a VM, then attacks the host, hypervisor, or other VMs",t:"2.3 Virtualization"},
+{f:"How do you protect against VM escape?",b:"Keep hypervisor/VM patches current, use low guest privileges, server-level redundancy, HIPS/HIDS",t:"2.3 Virtualization"},
+{f:"What is resource reuse risk in the cloud?",b:"Cloud providers reassign hardware between customers, risking data remanence from incomplete erasure; mitigate with encryption",t:"2.3 Cloud-Specific"},
+{f:"What is the 'CSA Egregious 11'?",b:"A list of the top 11 cloud-specific security threats from the Cloud Security Alliance",t:"2.3 Cloud-Specific"},
+{f:"Name 5 items from the CSA Egregious 11.",b:"Data breaches, Misconfiguration/inadequate change control, Lack of cloud security strategy, Insufficient IAM/key management, Account hijacking (any 5 of the 11)",t:"2.3 Cloud-Specific"},
+{f:"What is the difference between metastructure and applistructure?",b:"Metastructure = protocols/mechanisms interfacing cloud layers for management; Applistructure = apps deployed in the cloud and their underlying services",t:"2.3 Cloud-Specific"},
+{f:"What are the main cloud risk mitigation strategies?",b:"Select a qualified CSP, design/architect with security in mind, encrypt data at rest and in transit, ongoing monitoring",t:"2.3 Cloud Mitigation"},
+{f:"List the 8 types of cryptographic vulnerabilities.",b:"Weak encryption, Improper key management, Inadequate randomness, Inadequate authentication, Key lifetimes, Public key length, Symmetric key length, Strength of implementation",t:"2.3 Cryptographic Vulns"},
+{f:"What random number generator should be used for cryptographic keys?",b:"True Random Number Generator (TRNG), not a Pseudo Random Number Generator (PRNG)",t:"2.3 Cryptographic Vulns"},
+{f:"What is the recommended max lifespan for client/server certificates?",b:"Approximately one year",t:"2.3 Cryptographic Vulns"},
+{f:"What is the recommended key length for x.509 certificates?",b:"2048-bit",t:"2.3 Cryptographic Vulns"},
+{f:"What AES key length is required in some U.S. government scenarios?",b:"256-bit",t:"2.3 Cryptographic Vulns"},
+{f:"What prevents misconfiguration vulnerabilities?",b:"Infrastructure-as-code, configuration management tools, CI/CD, checklists/templates, change management, regular audits/scans",t:"2.3 Misconfiguration"},
+{f:"What is the difference between rooting and jailbreaking?",b:"Rooting = Android equivalent of gaining elevated permissions via custom firmware; Jailbreaking = the iOS equivalent, removes device security restrictions",t:"2.3 Mobile Device"},
+{f:"What is sideloading?",b:"Installing an application package (.apk) on a mobile device outside the official app store, allowing unauthorized software",t:"2.3 Mobile Device"},
+{f:"What is bloatware?",b:"Unnecessary pre-installed software that consumes resources; not malicious but unwanted and hard to remove",t:"2.4 Malware"},
+{f:"What is a keylogger and how do you mitigate it?",b:"Software/hardware recording keystrokes to steal credentials; mitigate with virtual keyboards, MFA, and OS/app updates",t:"2.4 Malware"},
+{f:"What are multipartite, stealth, and polymorphic viruses?",b:"Multipartite: uses multiple propagation techniques; Stealth: tampers with OS to hide from AV; Polymorphic: modifies its own code as it spreads",t:"2.4 Virus Types"},
+{f:"What is a logic bomb?",b:"Malicious code triggered at a predetermined time or event, can erase data, corrupt files, or disable systems",t:"2.4 Malware"},
+{f:"What is a rootkit?",b:"A stealthy program providing privileged access while hiding files, processes, and network activity",t:"2.4 Malware"},
+{f:"What is ransomware and what variant is it based on?",b:"Malware that encrypts files and demands payment for the decryption key; ransomware is a trojan variant",t:"2.4 Malware"},
+{f:"What are ransomware countermeasures?",b:"Back up your computer, store backups separately, user awareness training",t:"2.4 Ransomware"},
+{f:"What is a trojan and its primary defense?",b:"Software that appears harmless but carries a malicious hidden payload; defend by only allowing trusted software sources and restricting user installs",t:"2.4 Malware"},
+{f:"What is spyware?",b:"Software that monitors/steals user activity (keystrokes, passwords, browsing) without knowledge",t:"2.4 Malware"},
+{f:"What is a worm and how does it spread?",b:"A self-replicating program that spreads across a network exploiting software/hardware vulnerabilities",t:"2.4 Malware"},
+{f:"List the categories of indicators of malicious activity.",b:"Account lockout, Concurrent session usage, Blocked content, Impossible travel, Resource consumption, Resource inaccessibility, Out-of-cycle logging, Published/documented, Missing logs",t:"2.4 Indicators"},
+{f:"What does 'impossible travel' indicate?",b:"Login attempts from geographically distant locations in too short a time, suggesting stolen credentials",t:"2.4 Indicators"},
+{f:"What does 'concurrent session usage' indicate?",b:"Access from geographically impossible locations at the same time, suggesting account compromise",t:"2.4 Indicators"},
+{f:"What physical attack indicators relate to brute-force entry?",b:"Resource inaccessibility (damaged equipment), out-of-cycle logging (alarms triggered), missing logs (tampered cameras)",t:"2.4 Physical Attacks"},
+{f:"What is RFID cloning and its mitigations?",b:"Cloning an RFID badge for unauthorized access; mitigate with encryption, shielded badge holders, anomaly detection",t:"2.4 Physical Attacks"},
+{f:"What is the difference between DoS and DDoS?",b:"DoS = single-source resource consumption attack to prevent legitimate use; DDoS = same attack using multiple compromised systems",t:"2.4 Network Attacks"},
+{f:"What is a reflected DDoS attack?",b:"Attacker sends requests with a spoofed source IP (the victim's) to a third party, which sends responses to the victim",t:"2.4 Network Attacks"},
+{f:"What is an amplified DDoS attack?",b:"Uses reflection plus amplification — a small attacker request generates a much larger response sent to the victim",t:"2.4 Network Attacks"},
+{f:"What is the difference between DNS poisoning and DNS spoofing?",b:"Poisoning alters DNS-to-IP mappings in the DNS system; spoofing sends false replies that beat the legitimate DNS server's response",t:"2.4 DNS Attacks"},
+{f:"What is domain hijacking?",b:"Changing a domain's registration through technical exploits or social engineering against the registrar",t:"2.4 DNS Attacks"},
+{f:"What countermeasures protect against DNS attacks?",b:"Allow only authorized DNS changes, restrict zone transfers, use verified forwarders, log privileged DNS activity, use DNSSEC",t:"2.4 DNS Attacks"},
+{f:"What are bluejacking, bluesnarfing, and bluebugging?",b:"Bluejacking = unsolicited annoying messages; Bluesnarfing = data theft via Bluetooth; Bluebugging = creates a backdoor for eavesdropping/hacking",t:"2.4 Wireless Attacks"},
+{f:"What is an evil twin vs a rogue access point?",b:"Evil twin = malicious AP mimicking a legitimate trusted network; Rogue AP = unauthorized AP added to the network (intentional or not)",t:"2.4 Wireless Attacks"},
+{f:"What countermeasures address evil twins and rogue APs?",b:"Network monitoring, network segmentation, strong protocols (WPA2/WPA3), periodic network scans",t:"2.4 Wireless Attacks"},
+{f:"What is an on-path (man-in-the-middle) attack?",b:"Attacker sits between two endpoints, intercepting/altering traffic while both parties think they're communicating directly",t:"2.4 On-Path Attacks"},
+{f:"What countermeasures address on-path attacks?",b:"Secured Wi-Fi, VPN, HTTPS, and multi-factor authentication",t:"2.4 On-Path Attacks"},
+{f:"What is a credential replay attack?",b:"Stealing/capturing legitimate login credentials (password, session token) and reusing them for unauthorized access",t:"2.4 Network Attacks"},
+{f:"What countermeasures address credential replay?",b:"MFA, regular password rotation, secure login protocols, session/idle timeout, security training, log monitoring",t:"2.4 Network Attacks"},
+{f:"What is directory traversal?",b:"Gaining access to restricted directories outside the web root, often via command injection; mitigated by scanning and patching",t:"2.4 Application Attacks"},
+{f:"What is session replay?",b:"Attacker captures a legitimate user's session token/cookie and reuses it to gain unauthorized access",t:"2.4 Application Attacks"},
+{f:"What countermeasures address session replay?",b:"Short-lived session tokens, invalidate sessions on logout, CSRF protection, MFA, server-side validation",t:"2.4 Application Attacks"},
+{f:"What is the difference between CSRF and SSRF?",b:"CSRF exploits a site's trust of the user's browser to execute unwanted actions; SSRF exploits the server's trust of user-provided URLs to make unintended requests",t:"2.4 Request Forgeries"},
+{f:"What is a collision attack?",b:"An attack on a cryptographic hash to find two inputs producing the same hash value; countered with collision-resistant hashing",t:"2.4 Cryptographic Attacks"},
+{f:"What is a downgrade attack?",b:"Forcing a protocol to a lower-quality/older version, commonly targeting TLS",t:"2.4 Cryptographic Attacks"},
+{f:"What is a birthday attack?",b:"Uses the birthday paradox to find hash collisions more easily, commonly targeting digital signatures",t:"2.4 Cryptographic Attacks"},
+{f:"What is password spraying and its countermeasures?",b:"Trying one password against many accounts to avoid lockouts; countered with MFA, CAPTCHA, forced password change on first login",t:"2.4 Password Attacks"},
+{f:"What is a brute force password attack and its countermeasures?",b:"Trying all possible combinations to find a password; countered with salts, CAPTCHA, login rate throttling, IP blocklists",t:"2.4 Password Attacks"},
+{f:"List the 11+ mitigation techniques covered in 2.5.",b:"Segmentation, Access control, Application allow list, Isolation, Patching, Encryption, Monitoring, Least privilege, Configuration enforcement, Decommissioning, Hardening techniques",t:"2.5 Mitigation Overview"},
+{f:"What's the difference between a mitigation technique and a security control?",b:"Mitigation reduces severity/risk of potential consequences (managing risk); security controls are safeguards/countermeasures protecting assets (proactive or reactive)",t:"2.5 Definitions"},
+{f:"What's the difference between physical and logical segmentation, and which is typical on-prem vs cloud?",b:"Physical = hardware-based, Logical = software/configuration-based; on-prem can use either, cloud is usually logical",t:"2.5 Segmentation"},
+{f:"What are the 3 reasons for segmentation?",b:"Boosting performance, reducing communication problems (e.g., broadcast storms), providing security (isolating traffic/access)",t:"2.5 Segmentation"},
+{f:"What is micro-segmentation?",b:"Dividing apps/workloads into granular 'microsegments' with targeted policies to limit lateral movement/breach scope",t:"2.5 Micro-Segmentation"},
+{f:"What is a VPC and how is it named across AWS, Azure, and GCP?",b:"Virtual Private Cloud — isolated cloud network; AWS calls it VPC, Azure calls it VNET, GCP calls it VPC",t:"2.5 Cloud Segmentation"},
+{f:"What does a Network Security Group (NSG) do?",b:"Acts as a layer 4 virtual firewall for VPCs/VNETs and resource instances using IP/port allow-deny rules",t:"2.5 Cloud Segmentation"},
+{f:"How does mobile app management (MAM) support segmentation in BYOD?",b:"Keeps personal and business data separate, preventing business data from leaking into personal apps",t:"2.5 Segmentation"},
+{f:"What is the difference between MAC, DAC, and rule-based access control?",b:"MAC = system-enforced policy via classification labels; DAC = owner/creator controls access (e.g., NTFS permissions); Rule-based = specific functions defined for access (e.g., firewall ACLs)",t:"2.5 Access Control"},
+{f:"What is role-based access control (RBAC)?",b:"Uses defined job roles, each endowed with specific permissions, so users access only what they need for their job",t:"2.5 Access Control"},
+{f:"What is the difference between an application allow list and deny list?",b:"Allow list permits only explicitly approved apps to run (more restrictive); deny list blocks specific apps while allowing everything else (more permissive)",t:"2.5 Access Control"},
+{f:"What is an air gap?",b:"Isolation that eliminates all network connectivity; data moves only via removable media like USB",t:"2.5 Isolation"},
+{f:"What is a Faraday cage used for?",b:"Blocking electromagnetic signals (e.g., cellular) from entering or exiting, used for confidential meetings/devices",t:"2.5 Isolation"},
+{f:"What does patch management (update management) involve?",b:"Evaluating, testing, approving, deploying patches, and auditing to verify deployment across OS and 3rd party apps",t:"2.5 Patching"},
+{f:"What is a Hardware Root of Trust?",b:"A line of defense verifying keys match before secure boot, used with certificates for FDE",t:"2.5 Encryption"},
+{f:"What is a TPM (Trusted Platform Module)?",b:"A motherboard chip storing/managing encryption keys for FDE and secure boot; encrypted data is inaccessible if the drive is removed",t:"2.5 Encryption"},
+{f:"What is the difference between FDE and SED?",b:"FDE (Full Disk Encryption, e.g., Bitlocker) is OS-based with keys on the TPM; SED (Self-Encrypting Drive) has encryption built into the drive hardware itself, following the Opal Storage Specification",t:"2.5 Encryption"},
+{f:"What is measured boot?",b:"All boot components (firmware, apps, software) are measured and logged, with the log stored on the TPM",t:"2.5 Boot Integrity"},
+{f:"What does UEFI provide that BIOS cannot?",b:"Support for secure boot of the OS",t:"2.5 Boot Integrity"},
+{f:"What's the difference between SIEM and SOAR?",b:"SIEM collects/correlates data for real-time monitoring and alerting; SOAR provides centralized automated/single-click response via playbooks",t:"2.5 Monitoring"},
+{f:"What is the difference between need-to-know and least privilege?",b:"Need-to-know limits info access to those who require it; least privilege gives subjects only the privileges necessary for their job tasks",t:"2.5 Limiting Access"},
+{f:"What is separation of duties?",b:"Ensures no single person controls all elements of a critical function, reducing collusion risk",t:"2.5 Limiting Access"},
+{f:"What is the difference between configuration management and change management?",b:"Configuration management ensures systems are similarly configured and documented (baselining); change management requires changes to be requested, approved, tested, and documented",t:"2.5 Configuration Enforcement"},
+{f:"What does proper decommissioning require?",b:"Securely disposing of retired hardware so data is not forensically recoverable; crypto-shredding discards encryption keys to render data unrecoverable",t:"2.5 Decommissioning"},
+{f:"What are the 4 types of endpoint protection to know for the exam?",b:"Antivirus, EDR (Endpoint Detection and Response), XDR (Extended Detection and Response), HIPS (Host Intrusion Prevention System)",t:"2.5 Hardening"},
+{f:"What is the difference between EDR and XDR?",b:"EDR focuses on detection/response at the endpoint level; XDR extends beyond the endpoint to network devices, cloud infrastructure, and IoT for a broader view",t:"2.5 Hardening"},
+{f:"What's the difference between HIDS and HIPS?",b:"HIDS detects known events in packets and logs them; HIPS detects known events and actively rejects the packet",t:"2.5 Hardening"},
+{f:"What hardening steps should be taken for unused ports/services?",b:"Restrict listening ports to those necessary, filter traffic, disable unused services, block via firewalls",t:"2.5 Hardening"},
+{f:"What should be done with default passwords and unnecessary software during hardening?",b:"Change default passwords before deployment; remove unnecessary software to reduce attack surface and patching burden",t:"2.5 Hardening"},
+];
+
+let order = cards.map((_,i)=>i);
+let pos = 0;
+let flipped = false;
+
+const cardEl = document.getElementById('card');
+const textEl = document.getElementById('cardtext');
+const counterEl = document.getElementById('counter');
+const tagEl = document.getElementById('tagbadge');
+const hintEl = document.getElementById('hint');
+
+function render(){
+  const c = cards[order[pos]];
+  textEl.textContent = flipped ? c.b : c.f;
+  counterEl.textContent = `Card ${pos+1} of ${cards.length}`;
+  tagEl.textContent = c.t;
+  hintEl.textContent = flipped ? "Tap card to flip back" : "Tap card to flip";
+  cardEl.style.background = flipped ? '#001a00' : '#0a0a0a';
+}
+
+cardEl.addEventListener('click', ()=>{ flipped = !flipped; render(); });
+document.getElementById('next').addEventListener('click', ()=>{ pos = (pos+1)%cards.length; flipped=false; render(); });
+document.getElementById('prev').addEventListener('click', ()=>{ pos = (pos-1+cards.length)%cards.length; flipped=false; render(); });
+document.getElementById('shuffle').addEventListener('click', ()=>{
+  for(let i=order.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [order[i],order[j]]=[order[j],order[i]];
+  }
+  pos = 0; flipped=false; render();
+});
+
+render();
+</script>
+</body>
+</html>

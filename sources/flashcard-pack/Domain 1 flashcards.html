@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security+ Domain 1 Flashcards</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #000000;
+    color: #00ff00;
+    margin: 0;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+  }
+  #app { max-width: 480px; width: 100%; }
+  button {
+    font-family: inherit;
+    font-size: 14px;
+    padding: 0.6rem;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  button:hover { background: #001a00 !important; }
+  .sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    margin: -1px; padding: 0; overflow: hidden;
+    clip: rect(0,0,0,0); white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+<h2 class="sr-only">Flashcard study widget for Security+ SY0-701 Domain 1 covering security controls, CIA triad, AAA, and Zero Trust concepts</h2>
+<div id="app" style="display:flex; flex-direction:column; gap:1rem; background:#000000; color:#00ff00; padding:1rem; border-radius:12px;">
+  <div style="display:flex; justify-content:space-between; align-items:center;">
+    <span id="counter" style="font-size:13px; color:#00cc00;">Card 1 of 50</span>
+    <span id="tagbadge" style="font-size:12px; padding:4px 10px; border-radius:8px; background:#0a0a0a; color:#00ff00; border:0.5px solid #00aa00;"></span>
+  </div>
+
+  <div id="card" style="background:#0a0a0a; border:0.5px solid #00aa00; border-radius:12px; padding:1.5rem; min-height:160px; display:flex; align-items:center; justify-content:center; text-align:center; cursor:pointer;">
+    <p id="cardtext" style="font-size:16px; font-weight:500; margin:0; line-height:1.7; color:#00ff00;"></p>
+  </div>
+
+  <p id="hint" style="text-align:center; font-size:13px; color:#009900; margin:0;">Tap card to flip</p>
+
+  <div style="display:flex; gap:8px;">
+    <button id="prev" style="flex:1; background:#0a0a0a; color:#00ff00; border:0.5px solid #00aa00;"><i class="ti ti-arrow-left" aria-hidden="true" style="vertical-align:-2px; margin-right:4px;"></i>Prev</button>
+    <button id="shuffle" style="flex:1; background:#0a0a0a; color:#00ff00; border:0.5px solid #00aa00;"><i class="ti ti-refresh" aria-hidden="true" style="vertical-align:-2px; margin-right:4px;"></i>Shuffle</button>
+    <button id="next" style="flex:1; background:#0a0a0a; color:#00ff00; border:0.5px solid #00aa00;">Next<i class="ti ti-arrow-right" aria-hidden="true" style="vertical-align:-2px; margin-left:4px;"></i></button>
+  </div>
+</div>
+
+<script>
+const cards = [
+{f:"What are the four categories of security controls?",b:"Technical, Physical, Managerial, Operational",t:"1.1 Categories"},
+{f:"Which category consists of hardware or software mechanisms?",b:"Technical",t:"1.1 Categories"},
+{f:"Which category focuses on policies, procedures, and administrative controls?",b:"Managerial",t:"1.1 Categories"},
+{f:"Which category is primarily executed by people?",b:"Operational",t:"1.1 Categories"},
+{f:"Which category protects facilities and tangible objects?",b:"Physical",t:"1.1 Categories"},
+{f:"Technical controls mnemonic?",b:"Technology (hardware and software)",t:"1.1 Mnemonics"},
+{f:"Physical controls mnemonic?",b:"Tangible (touchable)",t:"1.1 Mnemonics"},
+{f:"Managerial controls mnemonic?",b:"Policy (and policy implementation)",t:"1.1 Mnemonics"},
+{f:"Operational controls mnemonic?",b:"People (doing stuff)",t:"1.1 Mnemonics"},
+{f:"Name the six control types (functions).",b:"Preventive, Deterrent, Detective, Corrective, Compensating, Directive",t:"1.1 Control Types"},
+{f:"What type of control stops unwanted activity from occurring?",b:"Preventive",t:"1.1 Control Types"},
+{f:"What type of control discourages violation of security policies?",b:"Deterrent",t:"1.1 Control Types"},
+{f:"What type of control discovers or detects unwanted activity?",b:"Detective",t:"1.1 Control Types"},
+{f:"What type of control restores systems to normal after an incident?",b:"Corrective",t:"1.1 Control Types"},
+{f:"What type of control provides alternatives to other controls?",b:"Compensating",t:"1.1 Control Types"},
+{f:"What type of control directs/confines actions to encourage compliance?",b:"Directive",t:"1.1 Control Types"},
+{f:"A security camera is both deterrent and detective. This demonstrates what?",b:"Control overlap — one control can serve multiple types depending on context",t:"1.1 Overlap"},
+{f:"An ACL can be preventive (blocks) or detective (logs). This shows?",b:"Context matters when classifying controls",t:"1.1 Overlap"},
+{f:"Exam keyword hint for Deterrent controls?",b:'"warning", "sign", "visibility", "perception"',t:"1.1 Exam Tips"},
+{f:"Exam keyword hint for Preventive controls?",b:'"access control", "authentication", "firewall", "encryption"',t:"1.1 Exam Tips"},
+{f:"Exam keyword hint for Detective controls?",b:'"monitoring", "audit", "logging", "alert"',t:"1.1 Exam Tips"},
+{f:"Exam keyword hint for Corrective controls?",b:'"backup", "restore", "incident response", "patching"',t:"1.1 Exam Tips"},
+{f:"Exam keyword hint for Compensating controls?",b:'"alternative", "backup", "redundancy"',t:"1.1 Exam Tips"},
+{f:"Exam keyword hint for Directive controls?",b:'"policy", "procedure", "standard", "guideline"',t:"1.1 Exam Tips"},
+{f:"Safeguards: proactive or reactive?",b:"Proactive — reduce the likelihood of occurrence",t:"1.1 Safeguards"},
+{f:"Countermeasures: proactive or reactive?",b:"Reactive — reduce the impact after occurrence",t:"1.1 Countermeasures"},
+{f:"What does CIA stand for?",b:"Confidentiality, Integrity, Availability",t:"1.2 CIA"},
+{f:"Confidentiality ensures...",b:"Only authorized subjects can access objects",t:"1.2 CIA"},
+{f:"Integrity ensures...",b:"Data/system configurations are not modified without authorization",t:"1.2 CIA"},
+{f:"Availability ensures...",b:"Authorized users can access systems and data when needed",t:"1.2 CIA"},
+{f:"What is non-repudiation?",b:"The inability to deny that an action was performed (digital signatures, logs)",t:"1.2 Core"},
+{f:"What does AAA stand for?",b:"Authentication, Authorization, Accounting",t:"1.2 AAA"},
+{f:"Authentication is...",b:"Verifying the identity of a user or system",t:"1.2 AAA"},
+{f:"Authorization is...",b:"Determining what an authenticated subject is allowed to do",t:"1.2 AAA"},
+{f:"Accounting is...",b:"Logging and auditing actions performed by subjects",t:"1.2 AAA"},
+{f:"What is gap analysis?",b:"Comparing current security state vs desired state to identify gaps",t:"1.2 Core"},
+{f:"Zero Trust core principle?",b:"Never trust, always verify",t:"1.2 Zero Trust"},
+{f:"Main components of the Zero Trust Control Plane?",b:"Policy Engine, Policy Administrator, Adaptive identity, Threat scope reduction, Policy-driven access control",t:"1.2 Zero Trust"},
+{f:"Main components of the Zero Trust Data Plane?",b:"Policy Enforcement Point (PEP), Implicit trust zones, Subject/System",t:"1.2 Zero Trust"},
+{f:"What physical control prevents vehicles from ramming a building?",b:"Bollards",t:"1.2 Physical"},
+{f:"What is an access control vestibule also called?",b:"Mantrap",t:"1.2 Physical"},
+{f:"List four examples of physical security sensors.",b:"Infrared, Pressure, Microwave, Ultrasonic",t:"1.2 Physical"},
+{f:"What is a honeypot?",b:"A decoy system designed to attract and trap attackers",t:"1.2 Deception"},
+{f:"What is a honeynet?",b:"A network of honeypots",t:"1.2 Deception"},
+{f:"What is a honeyfile?",b:"A fake/decoy file monitored for unauthorized access",t:"1.2 Deception"},
+{f:"What is a honeytoken?",b:"Fake data or credentials planted to detect unauthorized use",t:"1.2 Deception"},
+{f:"A single control can be identified as multiple types depending on?",b:"The context of the situation and how it is implemented",t:"1.1 Overlap"},
+{f:"Controls are designed to work together and their functions often?",b:"Overlap",t:"1.1 Overlap"},
+{f:"Which control type picks up where prevention leaves off?",b:"Deterrent",t:"1.1 Control Types"},
+{f:"Which control type is often after-the-fact rather than real-time?",b:"Detective",t:"1.1 Control Types"},
+{f:"Examples of Technical controls?",b:"Encryption, Firewalls, IDS/IPS, ACLs, Passwords, Biometrics",t:"1.1 Examples"},
+];
+
+let order = cards.map((_,i)=>i);
+let pos = 0;
+let flipped = false;
+
+const cardEl = document.getElementById('card');
+const textEl = document.getElementById('cardtext');
+const counterEl = document.getElementById('counter');
+const tagEl = document.getElementById('tagbadge');
+const hintEl = document.getElementById('hint');
+
+function render(){
+  const c = cards[order[pos]];
+  textEl.textContent = flipped ? c.b : c.f;
+  counterEl.textContent = `Card ${pos+1} of ${cards.length}`;
+  tagEl.textContent = c.t;
+  hintEl.textContent = flipped ? "Tap card to flip back" : "Tap card to flip";
+  cardEl.style.background = flipped ? '#001a00' : '#0a0a0a';
+}
+
+cardEl.addEventListener('click', ()=>{ flipped = !flipped; render(); });
+document.getElementById('next').addEventListener('click', ()=>{ pos = (pos+1)%cards.length; flipped=false; render(); });
+document.getElementById('prev').addEventListener('click', ()=>{ pos = (pos-1+cards.length)%cards.length; flipped=false; render(); });
+document.getElementById('shuffle').addEventListener('click', ()=>{
+  for(let i=order.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [order[i],order[j]]=[order[j],order[i]];
+  }
+  pos = 0; flipped=false; render();
+});
+
+render();
+</script>
+</body>
+</html>

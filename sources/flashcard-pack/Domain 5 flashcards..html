@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security+ Domain 5 Flashcards</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #000000;
+    color: #00ff00;
+    margin: 0;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+  }
+  #app { max-width: 480px; width: 100%; display:flex; flex-direction:column; gap:1rem; background:#000000; color:#00ff00; padding:1rem; border-radius:12px; }
+  button {
+    font-family: inherit;
+    font-size: 14px;
+    padding: 0.6rem;
+    border-radius: 8px;
+    cursor: pointer;
+    background:#0a0a0a; color:#00ff00; border:0.5px solid #00aa00;
+  }
+  button:hover { background: #001a00 !important; }
+  .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+</style>
+</head>
+<body>
+<h2 class="sr-only">Flashcard study widget for Security+ SY0-701 Domain 5 covering Security Program Management and Oversight</h2>
+<div id="app">
+  <div style="display:flex; justify-content:space-between; align-items:center;">
+    <span id="counter" style="font-size:13px; color:#00cc00;"></span>
+    <span id="tagbadge" style="font-size:12px; padding:4px 10px; border-radius:8px; background:#0a0a0a; color:#00ff00; border:0.5px solid #00aa00;"></span>
+  </div>
+  <div id="card" style="background:#0a0a0a; border:0.5px solid #00aa00; border-radius:12px; padding:1.5rem; min-height:160px; display:flex; align-items:center; justify-content:center; text-align:center; cursor:pointer;">
+    <p id="cardtext" style="font-size:16px; font-weight:500; margin:0; line-height:1.7; color:#00ff00;"></p>
+  </div>
+  <p id="hint" style="text-align:center; font-size:13px; color:#009900; margin:0;">Tap card to flip</p>
+  <div style="display:flex; gap:8px;">
+    <button id="prev" style="flex:1;"><i class="ti ti-arrow-left" style="vertical-align:-2px; margin-right:4px;"></i>Prev</button>
+    <button id="shuffle" style="flex:1;"><i class="ti ti-refresh" style="vertical-align:-2px; margin-right:4px;"></i>Shuffle</button>
+    <button id="next" style="flex:1;">Next<i class="ti ti-arrow-right" style="vertical-align:-2px; margin-left:4px;"></i></button>
+  </div>
+</div>
+<script>
+const cards = [
+// 5.1 Security Governance
+{f:"What is the hierarchy from security policy to implementation?",b:"Policy (the 'why' — high-level vision), Standards (the 'what/when' — mandatory technical requirements), Procedures (the 'how' — step-by-step instructions), Guidelines (the 'could' — optional recommendations)",t:"5.1 Governance Terms"},
+{f:"What are security guidelines?",b:"Non-mandatory recommendations and best practices for achieving security objectives; least specific, can be adapted to specific situations; provide the 'could'",t:"5.1 Guidelines"},
+{f:"What are security policies and what do they define?",b:"High-level direction and objectives for information security; define the 'why' behind security measures; general statements broad in scope; major input to procedures",t:"5.1 Policies"},
+{f:"What is an Acceptable Use Policy (AUP)?",b:"Defines allowed/appropriate uses of IT resources; prohibits activities that could compromise security (e.g., downloading unauthorized software, excessive social media use)",t:"5.1 Policies"},
+{f:"What is the Business Continuity policy?",b:"High-level document outlining the organization's commitment to maintaining critical business functions during disruptions; defines overall business continuity strategy",t:"5.1 Policies"},
+{f:"What is the Disaster Recovery policy?",b:"Focuses on recovery from disasters (natural disasters, major outages); guides IT/Security in designing and implementing recovery systems",t:"5.1 Policies"},
+{f:"What is the Incident Response policy?",b:"Sets high-level direction for how the organization will identify, contain, eradicate, and recover from security incidents",t:"5.1 Policies"},
+{f:"What is the SDLC policy?",b:"High-level guidance software development teams must follow; acts as a roadmap ensuring quality, security, and efficiency during development",t:"5.1 Policies"},
+{f:"What are security standards?",b:"Mandatory technical specifications and best practices implementing the security policy; define the 'what' and 'when' — more detailed than policies",t:"5.1 Standards"},
+{f:"What password standard guidance exists?",b:"Defines complexity and management practices (frequent changes, avoiding reuse); NIST and CIS maintain guidance",t:"5.1 Standards"},
+{f:"What is FIPS 140-2/3?",b:"A mandatory standard for protection of sensitive data within U.S. Federal systems",t:"5.1 Standards"},
+{f:"What are security procedures?",b:"Step-by-step instructions on how to implement standards and perform specific security tasks; define the 'how'; highly detailed",t:"5.1 Procedures"},
+{f:"What are the three types of procedures covered in 5.1?",b:"Change Management (proposing/reviewing/approving/implementing/documenting changes), Onboarding/Offboarding (granting/revoking access), Playbooks (step-by-step for specific security events, automated as runbooks in SOAR)",t:"5.1 Procedures"},
+{f:"What external considerations affect security governance?",b:"Regulatory (GDPR, HIPAA, PCI DSS), Legal (data breach/IP laws), Industry (sector best practices), Local/Regional/National/Global laws and regulations",t:"5.1 External"},
+{f:"What are the four types of governance structures?",b:"Boards (highest authority, binding decisions), Committees (subgroups with limited scope, report to board), Government Entities (NIST, FedRAMP — issue regulations/standards), Centralized/Decentralized (central vs delegated security decisions)",t:"5.1 Governance Structures"},
+{f:"What is monitoring vs revision in security governance?",b:"Monitoring: ongoing security audits, log reviews, vuln scans, IR metrics to identify what's working. Revision: updating governance documents/practices based on monitoring insights",t:"5.1 Monitoring"},
+{f:"Who is the Data Owner?",b:"Holds the legal rights and complete control over a single piece of data; usually senior management; can delegate day-to-day duties but CANNOT delegate total responsibility",t:"5.1 Data Roles"},
+{f:"Who is the Data Custodian?",b:"Responsible for safe custody, transport, and storage of data; implements technical controls (CIA, audit trails) for the data owner; usually IT; does not decide which controls are needed — only implements them. Tip: 'day-to-day' = custodian",t:"5.1 Data Roles"},
+{f:"What is the difference between a data controller and a data processor (GDPR)?",b:"Data Controller: determines the purpose and means of processing (responsible for the data). Data Processor: processes data solely on behalf of the controller",t:"5.1 Data Roles"},
+{f:"What is a data steward?",b:"Ensures the data's context and meaning are understood and business rules governing usage are known and followed; data owners often delegate some duties to this role",t:"5.1 Data Roles"},
+{f:"What is a data subject?",b:"Any individual person who can be identified (directly or indirectly) via identifiers — name, ID number, location data, or physical/genetic/social attributes",t:"5.1 Data Roles"},
+// 5.2 Risk Management
+{f:"What is the difference between risk identification and risk assessment?",b:"Risk Identification: identifies threats and vulnerabilities in the environment. Risk Assessment: the broader process — identifies, analyzes, evaluates, and prioritizes potential risks including developing mitigation strategies",t:"5.2 Risk Terms"},
+{f:"What are the four types of risk assessment?",b:"Ad hoc (informal, one-time, in response to a specific event/change), Recurring (periodic at predetermined intervals), One-time (formal version of ad hoc, in response to incident or management request), Continuous (ongoing, often automated daily operations)",t:"5.2 Risk Assessment"},
+{f:"What is the difference between risk assessment and risk analysis?",b:"Risk assessment: broader lifecycle — identification, analysis, evaluation, mitigation. Risk analysis: specific step within risk assessment focused on evaluating likelihood and impact of identified risks",t:"5.2 Risk Assessment"},
+{f:"What is qualitative vs quantitative risk analysis?",b:"Quantitative: assigns dollar values, objective, uses formulas (AV, EF, SLE, ARO, ALE). Qualitative: uses scoring system (low/med/high), subjective, uses judgments",t:"5.2 Risk Analysis"},
+{f:"What is Exposure Factor (EF)?",b:"The percentage of loss an org would experience if a specific asset were violated by a realized risk (e.g., $30,000 loss on $100,000 asset = EF of 30%)",t:"5.2 Risk Formulas"},
+{f:"What is Single Loss Expectancy (SLE) and its formula?",b:"How much it would cost if the risk occurred just once; SLE = Asset Value (AV) × Exposure Factor (EF)",t:"5.2 Risk Formulas"},
+{f:"What is Annualized Rate of Occurrence (ARO)?",b:"How many times a specific threat/risk will occur within a single year; if it occurs once every 5 years: 1 ÷ 5 = 0.2; once every 2 years: 1 ÷ 2 = 0.5",t:"5.2 Risk Formulas"},
+{f:"What is Annualized Loss Expectancy (ALE) and its formula?",b:"Possible yearly cost of all instances of a specific realized threat; ALE = SLE × ARO (or AV × EF × ARO)",t:"5.2 Risk Formulas"},
+{f:"Work through this ALE example: Office building = $200,000, hurricane damage = 50%, hurricane probability = once every 10 years",b:"EF = 50%, AV = $200,000. SLE = $200,000 × 0.50 = $100,000. ARO = 1/10 = 0.10. ALE = $100,000 × 0.10 = $10,000/year",t:"5.2 Risk Formulas"},
+{f:"What is the difference between probability and likelihood in risk?",b:"Probability: quantitative, expressed as a number between 0-1 (certain). Likelihood: qualitative, expressed as high/medium/low/rare",t:"5.2 Risk Analysis"},
+{f:"What is a risk register and what does it contain?",b:"A risk management tool tracking potential issues; contains: Risk ID, Description, Probability, Impact, Severity, Response, Owner. Should be a living document updated periodically (at least annually)",t:"5.2 Risk Register"},
+{f:"What are Key Risk Indicators (KRIs)?",b:"Measurable metrics signaling potential changes in the likelihood or impact of a risk; enable early detection, escalation, and mitigation",t:"5.2 Risk Register"},
+{f:"What is a risk threshold?",b:"The level of risk tolerance established by the organization — the level a risk must reach before the org chooses to take action to manage it",t:"5.2 Risk Register"},
+{f:"What is a risk matrix/heat map?",b:"A visual representation of risks affecting a company; heat map shows severity with most severe risks in red; axes are likelihood vs impact",t:"5.2 Risk Register"},
+{f:"What is the difference between risk appetite and risk tolerance?",b:"Risk Appetite: amount of risk an org is willing to accept without mitigating (aggregate). Risk Tolerance: the org's ability to take on risk per individual risk; the two should be aligned",t:"5.2 Risk Appetite"},
+{f:"What are the three levels of risk appetite?",b:"Expansionary: willing to accept high risk for high rewards. Neutral: balanced approach. Conservative: prefers low risk, prioritizes preserving current security posture",t:"5.2 Risk Appetite"},
+{f:"What are the four risk management strategies?",b:"Accept (do nothing, accept potential loss), Mitigate (implement countermeasure, accept residual risk), Transfer (assign to 3rd party/insurance), Avoid (stop the activity when costs outweigh benefits)",t:"5.2 Risk Strategies"},
+{f:"What is the difference between a risk exception and a risk exemption?",b:"Exception: temporary deviation from a policy/control for specific circumstances; documented and approved for a defined period. Exemption: permanent deviation; formal decision because mitigation is impractical or infeasible",t:"5.2 Risk Strategies"},
+{f:"What is a BIA (Business Impact Analysis)?",b:"Identifies mission-critical functions and systems, maximum downtime limits, scenarios that can impact them, and potential losses; contains a cost-benefit analysis (CBA) and return on investment (ROI) calculation",t:"5.2 BIA"},
+{f:"What is RPO vs RTO?",b:"RPO (Recovery Point Objective): max tolerable data loss — how old must recovered data be? RTO (Recovery Time Objective): max time to restore a business process after disaster before unacceptable consequences",t:"5.2 BIA"},
+{f:"What is MTBF vs MTTR?",b:"MTBF (Mean Time Between Failures): how long a piece of IT infrastructure will continue working before it fails. MTTR (Mean Time to Repair): how long it will take to get hardware/software repaired and back online",t:"5.2 BIA"},
+// 5.3 Third-Party Risk
+{f:"What are the methods for vendor assessment?",b:"Penetration testing, Right-to-audit clause, Evidence of internal audits, Independent assessments, Supply chain analysis",t:"5.3 Vendor Assessment"},
+{f:"What is a right-to-audit clause?",b:"Written into supply chain contracts, allows an auditor to visit premises and inspect that the contractor is complying with contractual obligations; helps identify faulty goods, short shipments, kickbacks, etc.",t:"5.3 Vendor Assessment"},
+{f:"What is due diligence in vendor selection?",b:"Effort to collect and analyze information before making a decision or signing a contract; involves reviewing vendor financial health, reputation, security practices, and regulatory compliance; supports due care actions",t:"5.3 Vendor Selection"},
+{f:"What is conflict of interest in vendor selection?",b:"Financial interests (ownership stake, kickbacks), Information sharing issues (confidentiality breaches, unequal info), Professional relationships (pre-existing relationships, 'revolving door' problem) — all can unfairly influence selection",t:"5.3 Vendor Selection"},
+{f:"What is an SLA (Service-Level Agreement)?",b:"Stipulates performance expectations such as maximum downtimes and includes penalties if the vendor doesn't meet expectations; generally used with vendors",t:"5.3 Agreement Types"},
+{f:"What is the difference between MOU and MOA?",b:"MOU (Memorandum of Understanding): formal agreement indicating intention to work together; more formal than a handshake but NOT legally binding, no monetary penalties. MOA (Memorandum of Agreement): similar but IS a legal contract",t:"5.3 Agreement Types"},
+{f:"What is an MSA (Master Service Agreement)?",b:"General contract between parties providing structure for repeated vendor engagements; covers compliance/process requirements; comes BEFORE statements of work and spans the entire relationship; must include breach notification requirements",t:"5.3 Agreement Types"},
+{f:"What is a SOW (Statement of Work)?",b:"Legal document created AFTER an MSA; governs a specific unit of work; documents requirements, expectations, and deliverables for a project. MSA = overall ongoing; SOW = limited and specific",t:"5.3 Agreement Types"},
+{f:"What is an NDA (Non-Disclosure Agreement)?",b:"Contract prohibiting disclosure of the company's confidential information; used with vendors/suppliers and with employees to prevent sharing proprietary data; duration and terms vary",t:"5.3 Agreement Types"},
+{f:"What is a BPA (Business Partners Agreement)?",b:"Used between two companies/individuals in a business venture; details each partner's contributions, rights, responsibilities, operations, decision-making, profit sharing, and partnership dissolution rules",t:"5.3 Agreement Types"},
+{f:"What is vendor monitoring and what role do questionnaires play?",b:"Continuous monitoring to track evolving risks; a vulnerable vendor can impact the entire supply chain. Questionnaires are periodic self-attestation from vendors about their security controls — should elicit lower confidence than an external assessment",t:"5.3 Vendor Monitoring"},
+// 5.4 Compliance
+{f:"What is internal vs external compliance reporting?",b:"Internal: informing internal stakeholders/management about compliance posture, demonstrates transparency. External: submitting reports to regulatory bodies/auditors (GDPR, PCI, HIPAA require annual or on-request reporting)",t:"5.4 Compliance"},
+{f:"What are the consequences of non-compliance?",b:"Fines, Sanctions (legal repercussions — harsher than fines, restrictions on operations, criminal charges), Reputational damage (loss of customer trust/revenue, effects can last years), Loss of license, Contractual impacts",t:"5.4 Compliance"},
+{f:"What is due diligence vs due care in compliance?",b:"Due diligence: collecting and analyzing information to assess risks. Due care: the actions taken by the organization based on the due diligence findings",t:"5.4 Compliance Monitoring"},
+{f:"What is attestation and acknowledgement in compliance?",b:"Obtaining formal confirmation from relevant parties (e.g., employees) that they understand and will comply with security policies and procedures",t:"5.4 Compliance Monitoring"},
+{f:"What is the difference between privacy and confidentiality?",b:"Privacy: rights of individuals to control their personal information — ownership and control over data. Confidentiality: ensuring data is only accessed by authorized individuals — protection from unauthorized access",t:"5.4 Privacy"},
+{f:"What is the source of U.S. privacy rights and what law extends it electronically?",b:"Fourth Amendment to the U.S. Constitution; the Stored Communications Act (SCA) of 1986 extends Fourth Amendment protections to the electronic realm",t:"5.4 Privacy"},
+{f:"What is GDPR and who does it apply to?",b:"General Data Protection Regulation — EU data privacy law considered the gold standard; applies to EVERY company with customers in the EU (including U.S. companies); moving data out of EU does NOT remove GDPR requirements",t:"5.4 Privacy"},
+{f:"What is data sovereignty?",b:"Digital data is subject to the laws of the country where it was created or stored; legal jurisdictions may differ based on data subject, collector, CSP, and company headquarters",t:"5.4 Privacy"},
+{f:"What is the right to be forgotten?",b:"A data subject's right to request deletion of their personal data under GDPR; organizations must have processes to handle subject deletion requests",t:"5.4 Privacy"},
+{f:"What is a data inventory and why is it needed?",b:"A comprehensive record of all personal data collected and processed; must include PII, PHI, financial, IP, legal, and regulated info; accompanied by data retention policies specifying how long data is stored before secure disposal",t:"5.4 Privacy"},
+// 5.5 Audits and Assessments
+{f:"What is the difference between a security audit and a security assessment?",b:"Audit: verifies compliance with standards/regulations, formal (often external auditor), reports on compliance gaps. Assessment: identifies and prioritizes risks, can be formal or informal, reports risks and recommendations",t:"5.5 Audits"},
+{f:"What is attestation in the context of audits?",b:"Independent verification of an organization's adherence to specific controls or standards; can be internal or external; auditors must always be independent (internal auditors must be free to report without fear of punishment)",t:"5.5 Audits"},
+{f:"What are the three types of internal audits?",b:"Compliance Audits (assess internal controls vs industry standards/regulations), Audit Committee (reports to board, oversees internal audit independence), Self-Assessments (conducted by org's own staff to identify improvement areas)",t:"5.5 Internal Audits"},
+{f:"What are the three types of external audits?",b:"Regulatory Audits (required by government agencies, e.g., SOX for public companies), Examinations (broader term for external reviews), Independent Third-Party Audits (external unbiased entity free from conflicts of interest)",t:"5.5 External Audits"},
+{f:"What are the four penetration testing categories?",b:"Physical (unauthorized physical access), Offensive (technical — exploiting vulnerabilities), Defensive (evaluating effectiveness of existing controls), Integrated (combines all three)",t:"5.5 Pen Testing"},
+{f:"What is passive vs active reconnaissance?",b:"Passive: no direct target interaction, target cannot log activity (browsing target website, OSINT, WHOIS, social media). Active: directly interacts with target, may be detected (ping sweeps, Nmap, extracting DNS info, vuln scanners)",t:"5.5 Recon"},
+// 5.6 Security Awareness
+{f:"List the seven principles of social engineering.",b:"Authority, Intimidation, Consensus, Scarcity, Familiarity/Liking, Trust, Urgency — all aim to get users to circumvent standard security policies",t:"5.6 Social Engineering"},
+{f:"What is the difference between tailgating, shoulder surfing, and dumpster diving?",b:"Tailgating: unauthorized person follows authorized person through a secured door. Shoulder surfing: spying over someone's shoulder to steal data. Dumpster diving: gathering intelligence from discarded materials (often legal)",t:"5.6 Social Engineering"},
+{f:"What is elicitation?",b:"Strategic use of casual conversation to extract information without arousing suspicion; can involve complex cover stories and co-conspirators",t:"5.6 Social Engineering"},
+{f:"What is pharming?",b:"An online scam where a website's traffic is manipulated through DNS, redirecting users to a malicious website; portmanteau of 'phishing' and 'farming'",t:"5.6 Social Engineering"},
+{f:"What is the difference between spam and SPIM?",b:"SPAM: unsolicited email (irritant, also ransomware delivery channel; defeated with spam filtering). SPIM: SPAM over instant messaging; create cryptic usernames and avoid IM public directories",t:"5.6 Social Engineering"},
+{f:"What are phishing campaigns used for in security awareness?",b:"Simulated phishing campaigns test employee awareness and preparedness; identify knowledge gaps requiring additional training",t:"5.6 Phishing"},
+{f:"What are the red flags of a phishing email?",b:"Generic greetings, typos, urgency, suspicious attachments or links",t:"5.6 Phishing"},
+{f:"What are examples of risky, unexpected, and unintentional anomalous behaviors?",b:"Risky: downloading untrusted files, sharing passwords. Unexpected: failed login spikes, accessing sensitive info outside normal duties. Unintentional: weak/reused passwords, falling for phishing, printing sensitive docs unattended",t:"5.6 Anomalous Behavior"},
+{f:"What topics should be included in end-user security training programs?",b:"Policy/handbooks, Situational awareness, Insider threat, Password management, Removable media and cables, Social engineering, Operational security (OpSec), Hybrid/remote work environment guidance",t:"5.6 User Training"},
+{f:"What is operational security (OpSec) in the context of user training?",b:"Being mindful of information shared online or in public places; awareness of risks of unsecured Wi-Fi networks or public computers",t:"5.6 User Training"},
+{f:"What is the difference between initial and recurring security awareness reporting/monitoring?",b:"Initial: baseline assessment of current employee security awareness (surveys, knowledge tests). Recurring: regular training sessions to reinforce best practices and monitor reporting trends; materials need regular updates for evolving threats",t:"5.6 Reporting/Monitoring"},
+{f:"How should an organization handle reported suspicious messages?",b:"Establish a clear reporting procedure for employees to forward suspicious emails to the IT security team; include instructions on forwarding without compromising security",t:"5.6 Phishing"},
+];
+
+let order = cards.map((_,i)=>i);
+let pos = 0;
+let flipped = false;
+
+const cardEl = document.getElementById('card');
+const textEl = document.getElementById('cardtext');
+const counterEl = document.getElementById('counter');
+const tagEl = document.getElementById('tagbadge');
+const hintEl = document.getElementById('hint');
+
+function render(){
+  const c = cards[order[pos]];
+  textEl.textContent = flipped ? c.b : c.f;
+  counterEl.textContent = `Card ${pos+1} of ${cards.length}`;
+  tagEl.textContent = c.t;
+  hintEl.textContent = flipped ? "Tap card to flip back" : "Tap card to flip";
+  cardEl.style.background = flipped ? '#001a00' : '#0a0a0a';
+}
+
+cardEl.addEventListener('click', ()=>{ flipped = !flipped; render(); });
+document.getElementById('next').addEventListener('click', ()=>{ pos = (pos+1)%cards.length; flipped=false; render(); });
+document.getElementById('prev').addEventListener('click', ()=>{ pos = (pos-1+cards.length)%cards.length; flipped=false; render(); });
+document.getElementById('shuffle').addEventListener('click', ()=>{
+  for(let i=order.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [order[i],order[j]]=[order[j],order[i]];
+  }
+  pos = 0; flipped=false; render();
+});
+render();
+</script>
+</body>
+</html>

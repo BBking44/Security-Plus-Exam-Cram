@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security+ Domain 4 Flashcards</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #000000;
+    color: #00ff00;
+    margin: 0;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+  }
+  #app { max-width: 480px; width: 100%; display:flex; flex-direction:column; gap:1rem; background:#000000; color:#00ff00; padding:1rem; border-radius:12px; }
+  button {
+    font-family: inherit;
+    font-size: 14px;
+    padding: 0.6rem;
+    border-radius: 8px;
+    cursor: pointer;
+    background:#0a0a0a; color:#00ff00; border:0.5px solid #00aa00;
+  }
+  button:hover { background: #001a00 !important; }
+  .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+</style>
+</head>
+<body>
+<h2 class="sr-only">Flashcard study widget for Security+ SY0-701 Domain 4 covering Security Operations</h2>
+<div id="app">
+  <div style="display:flex; justify-content:space-between; align-items:center;">
+    <span id="counter" style="font-size:13px; color:#00cc00;"></span>
+    <span id="tagbadge" style="font-size:12px; padding:4px 10px; border-radius:8px; background:#0a0a0a; color:#00ff00; border:0.5px solid #00aa00;"></span>
+  </div>
+  <div id="card" style="background:#0a0a0a; border:0.5px solid #00aa00; border-radius:12px; padding:1.5rem; min-height:160px; display:flex; align-items:center; justify-content:center; text-align:center; cursor:pointer;">
+    <p id="cardtext" style="font-size:16px; font-weight:500; margin:0; line-height:1.7; color:#00ff00;"></p>
+  </div>
+  <p id="hint" style="text-align:center; font-size:13px; color:#009900; margin:0;">Tap card to flip</p>
+  <div style="display:flex; gap:8px;">
+    <button id="prev" style="flex:1;"><i class="ti ti-arrow-left" style="vertical-align:-2px; margin-right:4px;"></i>Prev</button>
+    <button id="shuffle" style="flex:1;"><i class="ti ti-refresh" style="vertical-align:-2px; margin-right:4px;"></i>Shuffle</button>
+    <button id="next" style="flex:1;">Next<i class="ti ti-arrow-right" style="vertical-align:-2px; margin-left:4px;"></i></button>
+  </div>
+</div>
+<script>
+const cards = [
+// 4.1 Secure Baselines & Hardening
+{f:"What is the difference between a control, benchmark, and baseline?",b:"Control: high-level description of a feature/activity to address. Benchmark: security recommendations for a specific technology. Baseline: implementation of the benchmark on an individual service.",t:"4.1 Baselines"},
+{f:"What is the purpose of configuration management?",b:"Ensures systems are configured similarly, configurations are known and documented; imaging is a common baselining method",t:"4.1 Baselines"},
+{f:"What is change management and what does it require?",b:"Policy outlining procedures for processing changes to reduce risk of outages or weakened security; requires changes to be requested, approved, tested, and documented",t:"4.1 Baselines"},
+{f:"What are the three phases of secure baselines?",b:"Establish (threat modeling, benchmarks, risk assessment), Deploy (config management tools, MDM, IaC, CI/CD), Maintain (vuln scans, patch management, monitoring, auditing)",t:"4.1 Baselines"},
+{f:"What is hardening?",b:"The practice of reducing a system's attack surface, thereby enhancing its overall security posture",t:"4.1 Hardening"},
+{f:"What are the hardening steps for mobile devices?",b:"Strong passwords, app management, OS updates, remote wipe, disable unused features",t:"4.1 Hardening"},
+{f:"What are the hardening steps for workstations?",b:"Strong login credentials, disable unneeded services, least privilege access, anti-malware, host firewall",t:"4.1 Hardening"},
+{f:"What are the hardening steps for network devices?",b:"Strong passwords, disable unused features, firmware updates, ACLs, segment networks",t:"4.1 Hardening"},
+{f:"What are the hardening steps for cloud infrastructure?",b:"IAM, encryption, logging and monitoring, secure configuration, DevOps/CI/CD/IaC",t:"4.1 Hardening"},
+{f:"What are the hardening steps for ICS/SCADA?",b:"Segmentation or isolation, physical security, change management, password management, monitoring",t:"4.1 Hardening"},
+{f:"What are the hardening steps for embedded systems and RTOS?",b:"Secure coding practices, limited functionality design, firmware updates, code reviews, limited network access, secure boot",t:"4.1 Hardening"},
+{f:"What are the hardening steps for IoT devices?",b:"Strong passwords, firmware updates, network segmentation, limiting functionality, secure communication protocols",t:"4.1 Hardening"},
+{f:"How is server hardening applied?",b:"By applying a configuration baseline to a single VM image or VM template; CIS offers hardened VM images in CSP marketplaces",t:"4.1 Hardening"},
+{f:"What should be done about open ports and services during hardening?",b:"Listening ports restricted to only those necessary, filtered to restrict traffic, disabled entirely if unneeded; block through firewalls",t:"4.1 Hardening"},
+{f:"What are the wireless site survey and heat map used for?",b:"Site survey investigates presence/strength/reach of APs. Heat map visually represents signal strength — green/blue = strong, yellow/orange/red = weak — guides optimal AP placement",t:"4.1 Wireless"},
+{f:"What is MDM (Mobile Device Management) and name key features?",b:"MDM manages and secures mobile devices; key features: passwords/PINs, geofencing, app management, content management, remote wipe, screen locks, geolocation, push notifications",t:"4.1 MDM"},
+{f:"What is geofencing and what exam fact should you remember about it?",b:"Uses GPS or RFID to define geographic boundaries; for the exam: geofencing prevents mobile devices from being removed from company premises",t:"4.1 MDM"},
+{f:"What is the difference between MDM, MAM, and UEM?",b:"MDM manages the full device. MAM (Mobile App Management) manages only apps/data, even on unmanaged devices (useful for BYOD). UEM (Unified Endpoint Management) manages hardware across all device types including desktops, tablets, smartphones, IoT",t:"4.1 Mobile"},
+{f:"What are the four mobile deployment models?",b:"BYOD (employee's own device), Corporate-Owned (company buys and fully controls), CYOD (employee chooses from approved list), COPE (company buys and allows personal use)",t:"4.1 Deployment Models"},
+{f:"What is sideloading on mobile?",b:"Installing an .apk file directly on a mobile device outside the official app store — useful for developers but enables unauthorized software",t:"4.1 Mobile"},
+{f:"What is the difference between rooting and jailbreaking?",b:"Rooting = Android equivalent of gaining elevated permissions via custom firmware. Jailbreaking = iOS equivalent, removes vendor security restrictions while still allowing App Store access",t:"4.1 Mobile"},
+{f:"What is firmware OTA update?",b:"Firmware pushed out periodically by the vendor to keep mobile devices secure (e.g., software update notifications)",t:"4.1 Mobile"},
+{f:"What security risks do SMS/MMS/RCS messaging pose?",b:"Text messages can launch attacks; MMS/RCS image/video capability enables data theft; both are delivery channels for ransomware",t:"4.1 Mobile"},
+{f:"What is the difference between Wi-Fi Direct and ad-hoc wireless networks?",b:"Wi-Fi Direct: connects two Wi-Fi devices directly (single-path, cannot share internet). Ad-hoc: connects two wireless devices without WAP (multipath, can share internet)",t:"4.1 Mobile"},
+{f:"What are the four major wireless connection models?",b:"Point-to-point (one-to-one), Point-to-multipoint (one WAP to many), Broadcast (one source to all), Mesh (nodes communicate directly, self-healing)",t:"4.1 Wireless"},
+{f:"What is a disassociation attack and how does it relate to evil twins?",b:"A DoS attack breaking the wireless connection between victim and AP; gives the attacker a window to inject an evil twin access point",t:"4.1 Wireless Attacks"},
+{f:"What is jamming?",b:"A DoS attack that occupies a wireless channel to prevent other nodes from communicating — can be difficult to detect and often unintentional",t:"4.1 Wireless Attacks"},
+{f:"What is CCMP and what does it use?",b:"Counter Mode with Cipher Block Chaining Message Authentication Code Protocol — created to replace WEP and TKIP/WPA, uses AES with a 128-bit key; used with WPA2",t:"4.1 Wireless Security"},
+{f:"What is SAE and what does it replace?",b:"Simultaneous Authentication of Equals — used with WPA3-Personal to replace WPA2-PSK; uses a secure Diffie-Hellman 'dragonfly' handshake with perfect forward secrecy, immune to offline attacks",t:"4.1 Wireless Security"},
+{f:"What improvements does WPA3 have over WPA2?",b:"Released 2018; uses 256-bit GCMP-256 encryption (vs 128-bit in WPA2). Personal uses SAE with PFS. Enterprise uses 256-bit AES and ECDHE for initial handshake",t:"4.1 WPA3"},
+{f:"What is the difference between RADIUS and TACACS+?",b:"RADIUS: uses UDP, encrypts password only. TACACS+: uses TCP, encrypts the entire session",t:"4.1 AAA Protocols"},
+{f:"What is a captive portal?",b:"Used in airports/public spaces, Wi-Fi redirects users to a webpage on connection for additional identity validation (email, social login) — may include AUP and premium upgrade offer",t:"4.1 Captive Portal"},
+{f:"What is input validation and what does it prevent?",b:"Ensures only correctly formatted data within accepted ranges is accepted at input; prevents buffer overflow, integer overflow, and SQL injection attacks",t:"4.1 App Security"},
+{f:"What are secure cookies?",b:"Setting the 'secure' flag in website code ensures cookies are only transmitted over HTTPS sessions, preventing session hijacking via cookie theft",t:"4.1 App Security"},
+{f:"What is HTTP Strict Transport Security (HSTS)?",b:"An HTTP response header that instructs browsers to ignore all HTTP connections (non-HTTPS), preventing downgrade and MITM attacks",t:"4.1 App Security"},
+{f:"What is code signing?",b:"Using a certificate to digitally sign scripts/executables to verify authenticity and confirm they are genuine",t:"4.1 App Security"},
+{f:"What is the difference between static and dynamic code analysis?",b:"Static: analyzes code without executing it, requires source code access. Dynamic: executes code, uses fuzzing to inject random input, does not require source code access",t:"4.1 App Security"},
+{f:"What is fuzzing?",b:"Inputting random data into an application to see if it crashes, leaks memory, or returns errors — used in both white-box (pre-release) and black-box (post-release) testing",t:"4.1 App Security"},
+{f:"What is sandboxing in the context of application security?",b:"Installing an application in an isolated VM environment to patch, test, and ensure security before production; also used to investigate dangerous malware. Linux equivalent: chroot jail",t:"4.1 Sandboxing"},
+{f:"What is the asset management lifecycle and its phases?",b:"Process tracking valuable assets through: Acquisition/Procurement, Assignment/Accounting, Monitoring/Asset Tracking, Disposal/Decommissioning",t:"4.2 Asset Management"},
+{f:"What is a CMDB and what is it used for?",b:"Configuration Management Database — tracks asset inventory including type, location, and owner",t:"4.2 Asset Management"},
+{f:"What is enumeration in asset management?",b:"Regularly identifying and documenting all assets on the network; enables tracking location, status, and potential vulnerabilities",t:"4.2 Asset Management"},
+{f:"What happens during asset disposal/decommissioning?",b:"Sanitization (data removal), Destruction (physical beyond recovery), Certification (documented proof for compliance), Data Retention policies enforced",t:"4.2 Asset Management"},
+{f:"What is the vulnerability lifecycle?",b:"Identification → Analysis → Response/Remediation → Validation of Remediation → Reporting",t:"4.3 Vulnerability Management"},
+{f:"What is the difference between a vulnerability scan and a vulnerability assessment?",b:"Scan: routine automated scan detecting known vulnerabilities/missing patches/open ports. Assessment: broader, extends beyond technical scans to include reviews and audits",t:"4.3 Vulnerability Management"},
+{f:"What is the difference between credentialed and non-credentialed vulnerability scans?",b:"Credentialed: has login privileges, more powerful, spots privilege-required vulnerabilities. Non-credentialed: lower privileges, identifies what an attacker would easily find",t:"4.3 Vuln Scans"},
+{f:"What is the difference between intrusive and non-intrusive scans?",b:"Non-intrusive: passive, reports vulnerabilities without causing damage. Intrusive: tries to exploit vulnerabilities, may cause damage — use only in sandboxes, not production",t:"4.3 Vuln Scans"},
+{f:"What is CVE vs CVSS and where do you find CVSS scores?",b:"CVE (Common Vulnerabilities and Exposures): list of publicly disclosed vulnerabilities with ID, description, dates. CVSS (Common Vulnerability Scoring System): 0.0-10.0 severity score — found in the NVD (National Vulnerability Database), not in CVE listings",t:"4.3 CVE/CVSS"},
+{f:"What three metrics make up a CVSS score?",b:"Exploitability (how easy to exploit), Impact (damage potential), Scope (what systems/assets it affects)",t:"4.3 CVE/CVSS"},
+{f:"What is the NVD and who maintains it?",b:"National Vulnerability Database — maintained by NIST, synchronized with the MITRE CVE list, where CVSS scores are found",t:"4.3 CVE/CVSS"},
+{f:"What is OSINT and give examples?",b:"Open-Source Intelligence — free cyber threat intelligence gathering; examples: threatcrowd.org, openphish.com, NVD, shodan.io",t:"4.3 Threat Intelligence"},
+{f:"What is a threat intelligence feed?",b:"A continuous stream of data about potential cyber threats; can include IoCs, threat actor info, and emerging threats; consumed via STIX/TAXII (machine-readable) or email/dashboards (human-readable)",t:"4.3 Threat Intelligence"},
+{f:"What is STIX vs TAXII?",b:"STIX defines 'what' is shared (common language for cyber threat info). TAXII defines 'how' STIX messages are securely transferred between systems",t:"4.3 Threat Intelligence"},
+{f:"What is AIS (Automated Indicator Sharing)?",b:"A CISA capability enabling real-time exchange of machine-readable cyber threat indicators and defensive measures — free to AIS community participants",t:"4.3 Threat Intelligence"},
+{f:"What is an IoC (Indicator of Compromise)?",b:"Pieces of forensic data (log entries, files) that identify potentially malicious activity on a system or network; sometimes called 'threat indicators'",t:"4.3 Threat Intelligence"},
+{f:"What is dark web intelligence gathering?",b:"An overlay network (accessed via Tor/.onion sites) containing info about hacker groups and activities; requires specialized software",t:"4.3 Threat Intelligence"},
+{f:"What is package monitoring?",b:"Tracking third-party and open-source libraries/packages for known vulnerabilities; ensures libraries are patched and versions up-to-date",t:"4.3 App Security"},
+{f:"What is the difference between a penetration test and a vulnerability scan?",b:"Vuln scan: automated, identifies weaknesses, reports severity (like a fire alarm). Pen test: manual + automated, actively exploits vulnerabilities, requires special skills, intrusive (like a firefighter testing the system)",t:"4.3 Pen Testing"},
+{f:"What are the three pen test environment types?",b:"White box (known environment): full info given to tester. Black box (unknown environment): tester goes in blind. Gray box (partially known): limited info given, simulates long-term attacker knowledge",t:"4.3 Pen Testing"},
+{f:"What are lateral movement, privilege escalation, persistence, and pivoting in pen testing?",b:"Lateral movement: gaining access then moving to other internal devices. Privilege escalation: gaining higher permissions than authorized. Persistence: maintaining long-term access. Pivoting: using a compromised system to attack others",t:"4.3 Pen Testing"},
+{f:"What are the Red, Blue, Purple, and White team roles?",b:"Red team: offense (emulates attackers). Blue team: defense (internal security). Purple team: improves Red/Blue effectiveness. White team: judge/referee overseeing engagements",t:"4.3 Pen Testing"},
+{f:"What is a bug bounty program?",b:"A monetary reward given to ethical hackers for discovering and responsibly reporting vulnerabilities or bugs to the developer",t:"4.3 Pen Testing"},
+{f:"What is exposure factor?",b:"The percentage of value an asset would lose due to a specific incident (e.g., 30% damage to a $1M building = EF of 30%)",t:"4.3 Risk"},
+{f:"What are environmental variables in vulnerability analysis?",b:"Asset criticality, network topology, data sensitivity, user base, external dependencies, threat landscape, operational constraints, regulatory requirements",t:"4.3 Risk"},
+{f:"What is risk tolerance vs risk appetite?",b:"Risk appetite: aggregate amount of risk an org is willing to accept. Risk tolerance: per-individual-risk threshold before action is taken",t:"4.3 Risk"},
+{f:"What are the four risk management responses?",b:"Risk Acceptance (do nothing), Risk Mitigation (implement countermeasure, accept residual risk), Risk Transference (transfer to 3rd party/insurance), Risk Avoidance (stop the activity)",t:"4.3 Risk"},
+{f:"What are the vulnerability remediation options?",b:"Patching, Insurance (risk transference), Segmentation (isolate on a segment), Compensating controls, Exceptions/Exemptions (risk acceptance)",t:"4.3 Remediation"},
+{f:"What are the three methods to validate remediation?",b:"Rescanning (most common — re-scan after remediation), Audit (in-depth review of process/documentation), Verification (actively test if the vulnerability can still be exploited)",t:"4.3 Remediation"},
+{f:"What are the three monitoring resource types in 4.4?",b:"Systems (CPU, memory, disk, login attempts), Applications (response times, resource usage, error logs), Infrastructure (networks, firewalls, storage — traffic volume, bandwidth, latency)",t:"4.4 Monitoring"},
+{f:"What is log aggregation and why is it important?",b:"Centralizing logs from systems, apps, and network devices for easier analysis; logs are valueless without review — SIEM provides aggregation and enables threat detection",t:"4.4 Monitoring"},
+{f:"What is alert tuning?",b:"Fine-tuning alert rules to reduce false positives and ensure alerts are triggered only for significant security events",t:"4.4 Monitoring"},
+{f:"What is SCAP (Security Content Automation Protocol)?",b:"A set of open standards automating vulnerability management and security policy compliance; provides automation, standardization, improved accuracy, and compliance benefits",t:"4.4 Tools"},
+{f:"What is the difference between SIEM and SOAR?",b:"SIEM: collects/correlates/analyzes data from many sources for real-time monitoring, alerting, and investigative monitoring. SOAR: centralized automated response via playbooks/runbooks — response can be fully automated or single-click",t:"4.4 Tools"},
+{f:"What is the difference between a playbook and a runbook?",b:"Playbook: document/checklist defining how to verify and respond to an incident (the paperwork). Runbook: implements the playbook as an automated tool (the technology)",t:"4.4 Tools"},
+{f:"What is UEBA/UBA and what does it establish?",b:"User (Entity) Behavior Analytics — creates a baseline of 'normal' user activity and flags deviations; detects compromised accounts, insider threats, and malware infections",t:"4.4 Tools"},
+{f:"What are the benefits of UBA?",b:"Early threat detection, reduced false positives (vs signature-based tools), improved investigation efficiency via user activity context",t:"4.4 Tools"},
+{f:"What is DLP (Data Loss Prevention)?",b:"Identifies, inventories, and controls use of sensitive data; spans detective, preventive, and corrective controls; applicable to email, SharePoint, cloud storage, removable devices, databases — protection travels with the document",t:"4.4 Tools"},
+{f:"What is SNMP and what version should be used?",b:"Simple Network Management Protocol — monitors/manages network devices via SNMP traps from agents. SNMPv1/v2 send passwords in cleartext; SNMPv3 encrypts credentials",t:"4.4 Tools"},
+{f:"What is NetFlow?",b:"A router/switch feature collecting IP traffic statistics (counts/stats, not full packets) sent to a NetFlow collector; includes timestamps, interfaces, source/destination IP and ports",t:"4.4 Tools"},
+{f:"What is XDR vs EDR?",b:"EDR: endpoint-focused detection and response, in-depth visibility for a single device. XDR: extended across endpoints, cloud infrastructure, email, mobile, and more — broader view using AI/ML/threat intelligence",t:"4.4 Tools"},
+{f:"What is NAC (Network Access Control)?",b:"Checks that an authenticating device is patched and compliant with corporate security policies; compliant devices get LAN access, non-compliant are redirected to a quarantine/remediation network",t:"4.5 Enterprise Security"},
+{f:"What is the difference between persistent and dissolvable NAC agents?",b:"Persistent agent: permanently installed on the host. Dissolvable agent: installed temporarily for a single use",t:"4.5 Enterprise Security"},
+{f:"What is a screened subnet and what else is it called?",b:"A boundary layer between the internet and trusted network hosting public-facing resources; other names: DMZ (Demilitarized Zone) or perimeter network. AD and sensitive systems should NOT reside here",t:"4.5 Firewall"},
+{f:"What are standard vs extended ACLs?",b:"Standard ACL: simple rules based on source/destination IP. Extended ACL: complex rules considering port numbers, protocols, and traffic direction. If no allow rule matches, the last rule is a deny-all",t:"4.5 Firewall"},
+{f:"What is a web filter and its two deployment models?",b:"A tool allowing/blocking traffic based on content rules. Agent-based: software on individual devices (supports work-from-anywhere). Centralized proxy: all traffic routed through a central server",t:"4.5 Web Filter"},
+{f:"What web filter techniques are used?",b:"URL scanning (blacklists), Content categorization (categories + custom rules), Block rules (specific sites/content), Reputation (trust scores based on historical behavior)",t:"4.5 Web Filter"},
+{f:"What is Group Policy in Windows and what is SELinux?",b:"Group Policy: policy-based control of Windows systems via GPOs in AD Domain Services. SELinux: Linux kernel security module providing additional security, used in multiple Linux distros and Android",t:"4.5 OS Security"},
+{f:"What secure protocols and ports should you know for the exam?",b:"SSH/SCP/SFTP (22), DNSSEC (53), Kerberos (88), HTTPS/TLS (443), LDAPS (636), SNMP v3 (UDP 162), SMTPS (587), IMAP4 (993), POP3 (995), FTPS (989/990), RDP (3389), SIP (5060/5061), SRTP (5061), IPSec (UDP 500)",t:"4.5 Secure Protocols"},
+{f:"What are the characteristics of a secure protocol?",b:"Confidentiality (encryption), Integrity (digital signatures detecting tampering), Authentication (verifies identity), Non-repudiation (prevents denial of sending), Availability (redundancy, access control)",t:"4.5 Secure Protocols"},
+{f:"What is DNS filtering?",b:"Intercepts DNS requests before they reach malicious websites; blocks via a list of prohibited domains and replaces the DNS response with a block page or redirect",t:"4.5 DNS Filter"},
+{f:"What is DKIM and what does it prevent?",b:"DomainKeys Identified Mail — attaches a cryptographic signature to outgoing emails so receiving servers can verify the email originated from your authorized mail server; prevents email spoofing",t:"4.5 Email Security"},
+{f:"What is SPF and how does it work?",b:"Sender Policy Framework — publishes a list of authorized mail servers allowed to send emails for your domain in DNS; receiving servers check if sender's IP is authorized to prevent spoofing",t:"4.5 Email Security"},
+{f:"What is DMARC and what are its three enforcement policies?",b:"Domain-based Message Authentication Reporting and Conformance — tells receiving servers what to do with emails failing SPF/DKIM. Policies: None (monitor only), Quarantine (hold for review), Reject (block entirely)",t:"4.5 Email Security"},
+{f:"How do SPF, DKIM, and DMARC work together?",b:"SPF verifies the sender, DKIM verifies the message integrity, DMARC leverages SPF and DKIM results to determine how to handle failing emails — multi-layered approach",t:"4.5 Email Security"},
+{f:"What is file integrity monitoring (FIM)?",b:"Creates a baseline cryptographic hash (MD5, SHA-256) for monitored files, then monitors for unauthorized changes to that fingerprint outside normal update processes",t:"4.5 FIM"},
+{f:"What is provisioning vs deprovisioning?",b:"Provisioning: creating user accounts with appropriate access at onboarding. Deprovisioning: disabling/deleting accounts when employment ends or roles change — timing is critical",t:"4.6 IAM"},
+{f:"What is identity proofing?",b:"Verifying that a person claiming a particular identity is actually who they say they are; methods include document verification, KBA, biometric, and out-of-band verification",t:"4.6 IAM"},
+{f:"What is federation in identity management?",b:"A collection of domains that have established trust for shared access to resources, including authentication and authorization",t:"4.6 IAM"},
+{f:"What is SSO and what is SAML used for?",b:"Single Sign-On: user logs in once, credential used for multiple apps. SAML (Security Assertion Markup Language): XML-based standard for exchanging auth/authorization data between identity provider and service provider; common in on-prem federation",t:"4.6 SSO"},
+{f:"What is OAuth 2.0?",b:"An open standard for authorization, allowing internet users to log into third-party websites using social identities (Microsoft, Google, Facebook) without exposing their password",t:"4.6 SSO"},
+{f:"What is LDAP and what does Kerberos provide?",b:"LDAP (Lightweight Directory Access Protocol): protocol for storing/retrieving directory service info (used by Active Directory). Kerberos: authentication protocol for AD, uses tickets and timestamps to prevent replay attacks",t:"4.6 LDAP/Kerberos"},
+{f:"What is Active Directory and its limitation?",b:"Set of directory services by Microsoft for on-prem domain networks; manages multiple infrastructure components with a single identity per user; does NOT natively support mobile devices, SaaS, or apps requiring modern authentication",t:"4.6 Active Directory"},
+{f:"What is attestation in IAM?",b:"Confirming that a device (laptop, mobile) is an approved, managed device compliant with company policies — common in Zero Trust; remote attestation uses MDM and validates unique hardware identifiers",t:"4.6 Attestation"},
+{f:"What are the access control models: MAC, DAC, RBAC, Rule-based, ABAC?",b:"MAC: system-assigned labels determine access. DAC: owner of every object grants/denies access (e.g., NTFS). RBAC: access via job roles (non-discretionary). Rule-based: global rules apply to all subjects (e.g., firewall). ABAC: access based on account attributes like department or location",t:"4.6 Access Control"},
+{f:"What is time-of-day restriction and what is it useful for?",b:"Limits network access to specific hours (e.g., 7am-6pm) based on shift role; prevents data theft at off-hours, effective in regulated industries with shift workers",t:"4.6 Access Control"},
+{f:"What are the three MFA factors?",b:"Something you know (PIN/password), Something you have (trusted device), Something you are (biometric)",t:"4.6 MFA"},
+{f:"What are the four MFA attributes?",b:"Somewhere you are (location), Something you can do (signature), Something you exhibit (gait), Someone you know (challenge response based on known individual)",t:"4.6 MFA"},
+{f:"What is the Crossover Error Rate (CER) in biometrics?",b:"Identifies the accuracy of a biometric method — the point where FRR (False Rejection Rate) equals FAR (False Acceptance Rate). False acceptance = Type 2 error (worse). False rejection = Type 1 error",t:"4.6 Biometrics"},
+{f:"What is TOTP vs HOTP?",b:"TOTP (Time-based One-Time Password): moving factor is time (timestep usually 30-60 seconds). HOTP (HMAC-based One-Time Password): moving factor is a counter. Both are OATH token types",t:"4.6 MFA Tokens"},
+{f:"What is FIDO2/passwordless authentication?",b:"Uses public-key (asymmetric) cryptography with a physical USB/NFC device; sequence: provide username → cryptographic challenge → sign with FIDO2 key → service verifies and grants access; eliminates passwords (immune to phishing/replay)",t:"4.6 Passwordless"},
+{f:"What is PAM (Privileged Access Management)?",b:"Applies more stringent security controls over accounts with elevated privileges (admin/root); includes just-in-time permissions, password vaulting, and ephemeral credentials",t:"4.6 PAM"},
+{f:"What is just-in-time permissions?",b:"Administrators request activation of administrative privileges only when needed; privileges automatically expire after a set period",t:"4.6 PAM"},
+{f:"What is password vaulting?",b:"Allows users to access privileged accounts without knowing the password; enables checking out privileged credentials as needed; ensures passwords are available for emergencies",t:"4.6 PAM"},
+{f:"What are ephemeral credentials?",b:"Credentials that automatically expire after a brief period (usually minutes), used in scenarios requiring temporary, time-bound access; minimizes exposure window for unauthorized access",t:"4.6 PAM"},
+{f:"What is the difference between password complexity, length, reuse, and age policies?",b:"Complexity: 3 of 4 character groups (lower, upper, number, special). Length: 12+ chars ideal. Reuse: prevents repeating recent passwords (e.g., last 12). Age: minimum age prevents rapid cycling to reuse old passwords",t:"4.6 Passwords"},
+{f:"What is the difference between orchestration and automation?",b:"Automation: mechanizing a single task (patch management, scanning, password resets). Orchestration: managing automated tasks across tools to form complete end-to-end security workflows (like SOAR)",t:"4.7 Automation"},
+{f:"What are the key use cases for security automation?",b:"User provisioning/deprovisioning, resource provisioning, guardrails, security group management, ticket creation, escalation, enabling/disabling services, CI/CD, API integrations",t:"4.7 Automation"},
+{f:"What are the benefits of automation and orchestration?",b:"Efficiency/time saving, enforcing baselines, standard infrastructure configurations, scaling securely, improved employee retention, faster reaction time, workforce multiplier",t:"4.7 Benefits"},
+{f:"What are the negative considerations of automation?",b:"Complexity, Cost (initial investment), Single point of failure, Technical debt (outdated scripts), Ongoing supportability",t:"4.7 Considerations"},
+{f:"What are the 7 phases of incident response?",b:"1.Preparation, 2.Detection, 3.Analysis (triage), 4.Containment (limit scope), 5.Eradication (remove artifacts), 6.Recovery (restore to normal), 7.Lessons Learned (root cause analysis)",t:"4.8 Incident Response"},
+{f:"What happens during Preparation in the IR lifecycle?",b:"IR plans are written, configurations documented, and the IR team is formed",t:"4.8 IR Phases"},
+{f:"What is triage in the Detection/Analysis phase?",b:"The initial assessment and prioritization of an incident — determining severity and scope",t:"4.8 IR Phases"},
+{f:"What is the difference between containment and mitigation?",b:"Containment: limits/controls the incident from spreading (e.g., disconnecting infected hosts). Mitigation: reduces the severity of the incident — begins the fixes",t:"4.8 IR Phases"},
+{f:"What happens during Eradication in IR?",b:"Removing all artifacts of the incident (malware, backdoors); example: completely wiping and reinstalling compromised systems",t:"4.8 IR Phases"},
+{f:"What is root cause analysis?",b:"Process focusing on identifying the underlying cause of an issue/compromise; aims to fix the systemic issues that allowed the event to occur; findings captured in a stakeholder report with actionable recommendations",t:"4.8 IR"},
+{f:"What is threat hunting?",b:"A proactive process of regularly seeking out cyber threats inside your network; threat hunters operate under the 'presumption of compromise'; leverages threat feeds, intelligence fusion, and fusion centers",t:"4.8 Threat Hunting"},
+{f:"What is legal hold in digital forensics?",b:"Protecting documents that can be used as evidence from being altered or destroyed; also called litigation hold",t:"4.8 Digital Forensics"},
+{f:"What is chain of custody?",b:"Tracks the movement of evidence through collection, safeguarding, and analysis — documenting each person who handled the evidence, the date/time, and purpose of transfer",t:"4.8 Digital Forensics"},
+{f:"What makes evidence admissible in court?",b:"Must be relevant (makes a fact more/less probable), material (important to proving the case), competent/legally collected (reliable and obtained legally), and sufficient (convincing beyond doubt)",t:"4.8 Digital Forensics"},
+{f:"What evidence sources should be considered in digital forensics acquisition?",b:"Disk, RAM (volatile), Swap/Pagefile, OS, Device (full system image), Firmware, Snapshots (VMs), Cache (volatile), Network (volatile connections), Artifacts (logs, registry, DNA, fingerprints), Video (CCTV)",t:"4.8 Digital Forensics"},
+];
+
+let order = cards.map((_,i)=>i);
+let pos = 0;
+let flipped = false;
+
+const cardEl = document.getElementById('card');
+const textEl = document.getElementById('cardtext');
+const counterEl = document.getElementById('counter');
+const tagEl = document.getElementById('tagbadge');
+const hintEl = document.getElementById('hint');
+
+function render(){
+  const c = cards[order[pos]];
+  textEl.textContent = flipped ? c.b : c.f;
+  counterEl.textContent = `Card ${pos+1} of ${cards.length}`;
+  tagEl.textContent = c.t;
+  hintEl.textContent = flipped ? "Tap card to flip back" : "Tap card to flip";
+  cardEl.style.background = flipped ? '#001a00' : '#0a0a0a';
+}
+
+cardEl.addEventListener('click', ()=>{ flipped = !flipped; render(); });
+document.getElementById('next').addEventListener('click', ()=>{ pos = (pos+1)%cards.length; flipped=false; render(); });
+document.getElementById('prev').addEventListener('click', ()=>{ pos = (pos-1+cards.length)%cards.length; flipped=false; render(); });
+document.getElementById('shuffle').addEventListener('click', ()=>{
+  for(let i=order.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [order[i],order[j]]=[order[j],order[i]];
+  }
+  pos = 0; flipped=false; render();
+});
+render();
+</script>
+</body>
+</html>

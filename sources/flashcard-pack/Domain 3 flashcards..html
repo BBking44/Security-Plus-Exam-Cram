@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security+ Domain 3 Flashcards</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #000000;
+    color: #00ff00;
+    margin: 0;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+  }
+  #app { max-width: 480px; width: 100%; display:flex; flex-direction:column; gap:1rem; background:#000000; color:#00ff00; padding:1rem; border-radius:12px; }
+  button {
+    font-family: inherit;
+    font-size: 14px;
+    padding: 0.6rem;
+    border-radius: 8px;
+    cursor: pointer;
+    background:#0a0a0a; color:#00ff00; border:0.5px solid #00aa00;
+  }
+  button:hover { background: #001a00 !important; }
+  .sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    margin: -1px; padding: 0; overflow: hidden;
+    clip: rect(0,0,0,0); white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+<h2 class="sr-only">Flashcard study widget for Security+ SY0-701 Domain 3 covering security architecture, cloud, network infrastructure, data protection, and resilience</h2>
+<div id="app">
+  <div style="display:flex; justify-content:space-between; align-items:center;">
+    <span id="counter" style="font-size:13px; color:#00cc00;">Card 1 of 1</span>
+    <span id="tagbadge" style="font-size:12px; padding:4px 10px; border-radius:8px; background:#0a0a0a; color:#00ff00; border:0.5px solid #00aa00;"></span>
+  </div>
+
+  <div id="card" style="background:#0a0a0a; border:0.5px solid #00aa00; border-radius:12px; padding:1.5rem; min-height:160px; display:flex; align-items:center; justify-content:center; text-align:center; cursor:pointer;">
+    <p id="cardtext" style="font-size:16px; font-weight:500; margin:0; line-height:1.7; color:#00ff00;"></p>
+  </div>
+
+  <p id="hint" style="text-align:center; font-size:13px; color:#009900; margin:0;">Tap card to flip</p>
+
+  <div style="display:flex; gap:8px;">
+    <button id="prev" style="flex:1;"><i class="ti ti-arrow-left" aria-hidden="true" style="vertical-align:-2px; margin-right:4px;"></i>Prev</button>
+    <button id="shuffle" style="flex:1;"><i class="ti ti-refresh" aria-hidden="true" style="vertical-align:-2px; margin-right:4px;"></i>Shuffle</button>
+    <button id="next" style="flex:1;">Next<i class="ti ti-arrow-right" aria-hidden="true" style="vertical-align:-2px; margin-left:4px;"></i></button>
+  </div>
+</div>
+
+<script>
+const cards = [
+{f:"What are the three cloud service models (XaaS)?",b:"Infrastructure as a Service (IaaS), Platform as a Service (PaaS), Software as a Service (SaaS)",t:"3.1 Cloud Models"},
+{f:"In IaaS, what is the customer responsible for vs the CSP?",b:"Customer: VMs, virtual network, guest OS security (as if on-prem). CSP: physical host, storage, and network",t:"3.1 IaaS"},
+{f:"In PaaS, what is the CSP responsible for?",b:"Physical components, internal network, and the tools/platform provided — cheaper for customer but less control",t:"3.1 PaaS"},
+{f:"In SaaS, what remains the customer's responsibility?",b:"Configuring user access to the cloud service, plus shared responsibility for data recovery",t:"3.1 SaaS"},
+{f:"In the shared responsibility model for on-premises, who is responsible for everything?",b:"The customer (100% theirs) — applications, data, runtime, middleware, OS, virtualization, servers, storage, networking",t:"3.1 Shared Responsibility"},
+{f:"As you move from on-prem to IaaS to PaaS to SaaS, what happens to customer responsibility?",b:"Customer responsibility decreases and CSP responsibility increases (with a shared zone in the middle)",t:"3.1 Shared Responsibility"},
+{f:"Describe the public cloud deployment model.",b:"Everything runs on the cloud provider's hardware; advantages include scalability, agility, pay-as-you-go (PAYG), no maintenance, low skills required",t:"3.1 Cloud Deployment"},
+{f:"Describe the private cloud deployment model.",b:"A cloud environment in your own datacenter, dedicated to a single customer; advantages include legacy support, control, and compliance",t:"3.1 Cloud Deployment"},
+{f:"Describe the hybrid cloud deployment model.",b:"Combines public and private clouds, allowing apps to run in the right location; offers flexibility for legacy, compliance, and scalability while controlling pace of public cloud adoption",t:"3.1 Cloud Deployment"},
+{f:"Describe the community cloud deployment model.",b:"Similar to private cloud (not open to the general public) but shared by several related organizations in a common community",t:"3.1 Cloud Deployment"},
+{f:"Describe the multi-cloud deployment model.",b:"Combines resources from two or more public cloud providers, allowing orgs to leverage service/price differences at the cost of added complexity",t:"3.1 Cloud Deployment"},
+{f:"What should the logical design of cloud infrastructure achieve?",b:"Create tenant partitioning/isolation, limit and secure remote access, monitor the infrastructure, allow patching/updating of systems",t:"3.1 Third Party"},
+{f:"What is multitenancy and its security concern?",b:"Multiple customers share CSP capacity/infrastructure with logical isolation; if isolation between tenants is breached, customer data is at risk",t:"3.1 Multitenancy"},
+{f:"What is Infrastructure as Code (IaC)?",b:"Management of infrastructure (networks, VMs, load balancers, topology) described in code, producing the same environment every time it's applied",t:"3.1 IaC"},
+{f:"What does 'declarative' mean in the context of IaC?",b:"IaC must know the current state of infrastructure to determine whether to create resources or not",t:"3.1 IaC"},
+{f:"What does 'idempotent' mean in the context of IaC?",b:"An IaC template can be applied multiple times without changing the results (e.g., if 3 of 4 required VMs exist, only 1 more is deployed)",t:"3.1 IaC"},
+{f:"What is serverless architecture?",b:"A cloud execution model where the provider dynamically manages server allocation; pay-as-you-go, stateless resources, ephemeral servers, often event-triggered (e.g., Function-as-a-Service)",t:"3.1 Serverless"},
+{f:"How does serverless differ from PaaS in terms of responsibility?",b:"PaaS: more control over deployment but app must be configured to auto-scale and takes time to spin up. Serverless: less control, no server management, app scales automatically, code only executes when invoked",t:"3.1 Serverless"},
+{f:"What are microservices?",b:"Fine-grained, loosely coupled, technology-agnostic code modules each performing one function well, deployed/scaled/updated independently — greatly reduces attack surface",t:"3.1 Microservices"},
+{f:"What is an air gap?",b:"Physical isolation of a computer/network/device from all external connections (including internet); common in financial, medical, military, and ICS systems",t:"3.1 Physical Isolation"},
+{f:"List logical segmentation techniques.",b:"VLANs (layer 2), VPNs (encrypted tunnels via IPSec), Virtual Routing and Forwarding (VRF), Subnets with ACLs",t:"3.1 Logical Segmentation"},
+{f:"What is Software-Defined Networking (SDN)?",b:"A network architecture that centrally controls/programs the network via software, separating control plane from data plane, with capacity to reprogram the data plane at any time",t:"3.1 SDN"},
+{f:"What vulnerabilities can SDN introduce and how are they secured?",b:"Man-in-the-middle (MITM) and denial-of-service (DoS); secured with TLS",t:"3.1 SDN"},
+{f:"In the SDN architecture diagram, what are the three planes?",b:"Management plane, Control plane (SDN controller), Data plane (switches)",t:"3.1 SDN"},
+{f:"What is the northbound interface in SDN used for?",b:"Ensures only trusted, authorized applications access critical network resources (connects controller to applications)",t:"3.1 SDN"},
+{f:"What protocol interfaces the SDN controller with devices via southbound interfaces?",b:"OpenFlow protocol",t:"3.1 SDN"},
+{f:"Compare on-premises vs off-premises (cloud) advantages.",b:"On-prem: full control of patching, upgrades, data residency, security. Off-prem: offloads infrastructure responsibility to CSP, freeing time/budget for business value; shifts CAPEX to OPEX",t:"3.1 On-Prem vs Off-Prem"},
+{f:"Compare centralized vs decentralized infrastructure models.",b:"Centralized: infrastructure in one/few large datacenters, reduces cost/management but increases outage impact. Decentralized: spread across many locations, may increase cost/complexity but decreases impact of a single outage",t:"3.1 Centralized vs Decentralized"},
+{f:"What is containerization and how does it reduce overhead vs VMs?",b:"A lightweight, portable way to package apps that run on a shared OS kernel (no own OS); examples include Docker and Kubernetes",t:"3.1 Containerization"},
+{f:"What is the key architectural difference between a Type 1 hypervisor and containers?",b:"Type 1 hypervisor: each VM has its own OS kernel (more overhead). Containers: isolated but share a single OS kernel and bins/libs where possible",t:"3.1 Containers vs VMs"},
+{f:"What are the core components of a container platform (Docker/Kubernetes)?",b:"Orchestration/scheduling controller, network and storage, container host, container images, container registry",t:"3.1 Containers"},
+{f:"What is managed Kubernetes and give examples from major CSPs.",b:"A CSP-hosted Kubernetes service handling health monitoring/maintenance (PaaS); examples: AKS (Microsoft), EKS (AWS), GKE (GCP)",t:"3.1 Containers"},
+{f:"What is VM escape?",b:"An attacker gains access to a VM, then attacks the host machine, hypervisor, or other VMs",t:"3.1 Virtualization"},
+{f:"How do you protect against VM escape?",b:"Keep hypervisor and VM patches current, use low guest privileges, server-level redundancy, HIPS/HIDS protection",t:"3.1 Virtualization"},
+{f:"What is VM sprawl and how is it avoided?",b:"Unmanaged VMs deployed on the network that IT doesn't know about, so they go unpatched; avoided by enforcing policies for adding VMs and periodic scanning",t:"3.1 Virtualization"},
+{f:"Compare Type 1 and Type 2 hypervisors.",b:"Type 1 (bare metal): runs directly on hardware, reduced attack surface, more secure, used for QA/load testing/production (e.g., VMware ESXi, Hyper-V). Type 2 (hosted): runs on a host OS, increased attack surface, less secure, used for individual dev/lab, less expensive (e.g., VMware Workstation, VirtualBox)",t:"3.1 Hypervisors"},
+{f:"What characterizes SCADA/ICS systems?",b:"Used in industrial/manufacturing/utility settings for centralized monitoring and control; usually no direct internet access and should be segmented off with security controls",t:"3.1 Embedded Systems"},
+{f:"What is a Real-Time Operating System (RTOS)?",b:"An OS designed for a deterministic schedule, processing data immediately; if a task doesn't complete in time, the process fails. Used in wearables, cars, industrial equipment",t:"3.1 Embedded Systems"},
+{f:"What is an embedded system and how should it be secured if it can't be patched?",b:"A full computer system embedded inside a larger system (printers, GPS, drones, VoIP phones, vehicles); if unpatchable, add layers of security like firewalls and IDPS",t:"3.1 Embedded Systems"},
+{f:"List the architecture considerations covered in 3.1.",b:"Availability, Resilience, Cost, Responsiveness, Scalability, Ease of deployment, Risk transference, Ease of recovery, Patch availability, Inability to patch, Power, Compute",t:"3.1 Considerations"},
+{f:"What is the difference between availability and resilience?",b:"Availability = system accessible to authorized users when needed. Resilience = subset of availability focused on handling disruptions (outages/attacks) without impacting availability",t:"3.1 Considerations"},
+{f:"What is risk transference?",b:"Mitigating security risks by transferring responsibility to third parties via insurance, security contracts, or service agreements",t:"3.1 Considerations"},
+{f:"What should you consider when patching is not feasible (inability to patch)?",b:"Alternative security measures like segmentation or intrusion detection to mitigate risks of unpatched systems",t:"3.1 Considerations"},
+{f:"What factors influence device placement decisions on a network?",b:"Device purpose/function, network layout/segmentation, traffic flow (minimize hops/latency/congestion), security awareness training",t:"3.2 Device Placement"},
+{f:"What is the purpose of security zones?",b:"Containment zones that prevent attackers in one zone from spreading throughout the network, limiting lateral movement and minimizing attack surface",t:"3.2 Security Zones"},
+{f:"Define intranet, extranet, and screened subnet.",b:"Intranet: private internal network. Extranet: section of network serving external partners/public (cross between internet and intranet). Screened subnet (DMZ): extranet for public consumption, a secure zone for public-facing critical systems",t:"3.2 Security Zones"},
+{f:"How do you minimize attack surface?",b:"Vulnerability management, network segmentation, access control, security awareness training",t:"3.2 Attack Surface"},
+{f:"What is the difference between fail-open and fail-closed?",b:"Fail-open: everything passes through on failure (no security enforced, no disruption — good for availability-critical systems). Fail-closed: nothing passes through on failure (security maintained, traffic disrupted — good for safety/security-focused systems)",t:"3.2 Failure Modes"},
+{f:"What is the difference between inline (in-band) and tap (out-of-band) NIDS/NIPS modes?",b:"Inline: placed on/near firewall, traffic passes through the device. Tap: replicates traffic for inspection while traffic continues on, eliminating risk of device failure",t:"3.2 Device Attributes"},
+{f:"What is the difference between active and passive taps?",b:"Active taps require power, offer additional functionality, ports physically separate (power outage interrupts traffic). Passive taps just copy the signal with a direct path (power outage does NOT interrupt traffic)",t:"3.2 Taps"},
+{f:"What is a jump server used for?",b:"Placed on a screened subnet to allow admins to connect remotely for secure remote administration",t:"3.2 Network Appliances"},
+{f:"What is the difference between a forward proxy and a reverse proxy?",b:"Forward proxy: controls client requests to external resources, filters outbound traffic. Reverse proxy: on a screened subnet, performs authentication/decryption of incoming secure sessions to filter incoming traffic",t:"3.2 Network Appliances"},
+{f:"What is the difference between IDS and IPS?",b:"IDS analyzes packets for known events and generates a log message when detected. IPS does the same but rejects the packet when a known event is detected",t:"3.2 IDS/IPS"},
+{f:"What is the difference between HIDS/HIPS and NIDS/NIPS?",b:"Host-based (HIDS/HIPS) monitors a single system's NIC traffic (less visible to attackers can disable it). Network-based (NIDS/NIPS) monitors network-wide traffic and isn't as visible to attackers",t:"3.2 IDS/IPS"},
+{f:"What is the difference between behavior-based and signature-based IDS?",b:"Behavior-based (anomaly/heuristic): baselines normal activity to detect abnormal behavior, can detect unknown attacks. Signature-based (knowledge-based): uses known signatures, only effective against known attacks",t:"3.2 IDS Types"},
+{f:"What is NIC teaming?",b:"Pairing dual network cards for max throughput; if one adapter fails, the other maintains connectivity (supported on Windows and Linux)",t:"3.2 Network Redundancy"},
+{f:"What is the difference between Active/Active and Active/Passive load balancer configurations?",b:"Active/Active: both LBs handle traffic together (single LB failure degrades performance). Active/Passive: active node handles load balancing while passive node monitors; passive takes over if active fails (provides redundancy)",t:"3.2 Load Balancing"},
+{f:"What is a Virtual IP (VIP) in load balancing?",b:"An address that eliminates dependency on individual NICs; web traffic enters the NLB via the VIP on the frontend and is sent to a backend server",t:"3.2 Load Balancing"},
+{f:"List the load balancer scheduling methods.",b:"Least Utilized Host, DNS Round Robin, Affinity (persistence/sticky session based on IP, IP+port, or session ID)",t:"3.2 Load Balancing"},
+{f:"What is 802.1X and what server handles its authentication?",b:"IEEE standard for Port-Based Network Access Control (PNAC), authenticating devices via LAN/WLAN ports; authentication happens through a RADIUS server",t:"3.2 802.1X"},
+{f:"Who are the three parties in 802.1X authentication?",b:"The user (supplicant), the authenticator (switch or WAP), and the authentication server (RADIUS)",t:"3.2 802.1X"},
+{f:"What is WPA2-PSK and what replaced it in WPA3?",b:"Pre-Shared Key for home users entering a password to access a wireless network; replaced by SAE in WPA3",t:"3.2 Wireless Auth"},
+{f:"What is WPS and its security weakness?",b:"Wi-Fi Protected Setup — stores the password locally and connects via button press; password is stored locally so could be brute-forced",t:"3.2 Wireless Auth"},
+{f:"What is RADIUS Federation?",b:"Enables members of one organization to authenticate to another using their normal credentials, with trust across multiple RADIUS servers/organizations, commonly using 802.1X and EAP",t:"3.2 Wireless Auth"},
+{f:"What is EAP (Extensible Authentication Protocol)?",b:"An authentication framework allowing new authentication technologies to be compatible with existing wireless or point-to-point connections",t:"3.2 Wireless Auth Protocols"},
+{f:"What is LEAP and why was it replaced?",b:"Cisco's proprietary alternative to TKIP for WPA, developed before 802.11i/WPA2 was ratified; replaced by EAP-FAST because it was insecure",t:"3.2 Wireless Auth Protocols"},
+{f:"What is PEAP?",b:"Protected EAP — encapsulates EAP methods within a TLS tunnel providing authentication and potentially encryption",t:"3.2 Wireless Auth Protocols"},
+{f:"What is EAP-TLS and what does it require?",b:"A secure wireless authentication method requiring X.509 certificates; involves supplicant, authenticator, and authentication server (RADIUS)",t:"3.2 Wireless Auth Protocols"},
+{f:"What is EAP-TTLS?",b:"Two-phase authentication: first sets up a secure tunnel via certificates (seamless to client), second phase uses a protocol like MS-CHAP; designed for connecting legacy systems",t:"3.2 Wireless Auth Protocols"},
+{f:"Describe static packet-filtering, application-level, and circuit-level firewalls.",b:"Static packet-filtering: examines header data, operates layer 3+. Application-level: filters by service/protocol/application, operates layer 7. Circuit-level: establishes sessions between trusted partners, operates layer 5 (e.g., SOCKS)",t:"3.2 Firewall Types"},
+{f:"What is the difference between stateless and stateful firewalls?",b:"Stateless: watches traffic based on source/destination/static values, not aware of patterns, faster under heavy load. Stateful: aware of communication paths/sessions, can implement tunnels and encryption, better at identifying forged communications",t:"3.2 Firewall Types"},
+{f:"What is a WAF (Web Application Firewall)?",b:"Filters and monitors HTTP traffic between a web app and the internet, protecting against XSS, CSRF, and SQL injection; some come pre-configured with OWASP rulesets",t:"3.2 Firewall Types"},
+{f:"What is an NGFW (Next-Generation Firewall)?",b:"A deep-packet inspection firewall that goes beyond port/protocol inspection, adding application-level inspection, intrusion prevention, and external threat intelligence",t:"3.2 Firewall Types"},
+{f:"What is a UTM (Unified Threat Management) appliance?",b:"A multifunction device combining firewall with IDS, IPS, TLS/SSL proxy, web filtering, QoS, bandwidth throttling, NAT, VPN, and antivirus; common in SMBs",t:"3.2 Firewall Types"},
+{f:"What is the difference between full tunnel and split tunnel VPN?",b:"Full tunnel: all traffic (Internet + corporate) goes through the VPN. Split tunnel: only corporate-destined traffic goes through VPN; Internet traffic uses its normal route",t:"3.2 VPN"},
+{f:"What is the difference between site-to-site and remote access VPN modes?",b:"Site-to-site: always-on IPSec tunnel mode encrypting header and payload. Remote access: shorter-duration connection from a user's device using IPSec transport mode",t:"3.2 VPN"},
+{f:"What is the difference between IPSec AH and ESP protocols?",b:"AH (Authentication Header): authentication only, faster (no encryption). ESP (Encapsulating Security Payload): provides confidentiality (encryption) and authentication; can be confidentiality-only, auth-only, or both",t:"3.2 IPSec"},
+{f:"What is the difference between IPSec transport mode and tunnel mode?",b:"Transport mode: outer IP header determines policy, good for host-to-host ESP traffic. Tunnel mode: two IP headers sent, inner packet determines policy, good for VPNs and gateway-to-gateway",t:"3.2 IPSec"},
+{f:"What is SD-WAN?",b:"Software-Defined Wide Area Network — lets branch offices remotely connect to enterprise networks using MPLS, LTE, broadband, etc; security via IPSec, VPN tunnels, NGFWs, and micro-segmentation",t:"3.2 SD-WAN"},
+{f:"What is SASE and what is it closely related to?",b:"Secure Access Service Edge (pronounced 'sassy') — closely related to Zero Trust Network Architecture; merges networking and security functions as an integrated cloud service",t:"3.2 SASE"},
+{f:"List the components of SASE.",b:"Firewall services, Secure web gateway, Anti-malware services, Intrusion prevention services, Cloud access service broker (CASB), Data loss prevention (DLP)",t:"3.2 SASE"},
+{f:"What are the key criteria for selecting effective security controls?",b:"Identify assets and vulnerabilities, perform impact analysis of a potential breach, understand the threat landscape relevant to your environment",t:"3.2 Selecting Controls"},
+{f:"List the regulated/specialized data types covered in 3.3.",b:"Regulated, Trade secret, Intellectual property, Legal information, Financial information, Human- and non-human readable",t:"3.3 Data Types"},
+{f:"What is regulated data and give examples?",b:"Data subject to specific laws/regulations governing collection, storage, and use; examples include PII, PHI, and financial/credit card data — non-compliance can lead to fines",t:"3.3 Data Types"},
+{f:"What is a trade secret and how long is it valid?",b:"Critical intellectual property that must not be disclosed (formulas, designs, customer lists); valid as long as secrecy is maintained",t:"3.3 Data Types"},
+{f:"List IP protection types and their durations.",b:"Trademarks (10 years, renewable), Patents (~20 years, requires public disclosure), Trade Secrets (valid while secret), Copyright (life of creator + 70 years)",t:"3.3 Data Rights"},
+{f:"What is the difference between human-readable and non-human-readable data?",b:"Human-readable: directly understood (text, images, video). Non-human-readable: requires software/tools to interpret (machine code, database files, encrypted data)",t:"3.3 Data Types"},
+{f:"What are the four government data classification levels?",b:"Top Secret, Secret, Confidential, Unclassified",t:"3.3 Data Classifications"},
+{f:"What are the four non-government (public) data classification levels?",b:"Confidential/Proprietary, Private, Sensitive, Public",t:"3.3 Data Classifications"},
+{f:"Define public data and private data.",b:"Public: freely accessible info with no privacy/compliance concerns (brochures, press releases). Private: confidential individual info like PII and PHI",t:"3.3 Data Classifications"},
+{f:"Define confidential data and restricted data.",b:"Confidential: info an org keeps secret within a designated group (salary, internal memos), access restricted by role. Restricted: subject to external regulations limiting access (e.g., HIPAA, PCI DSS) — confidential data can also be restricted",t:"3.3 Data Classifications"},
+{f:"Define sensitive data and critical data.",b:"Sensitive: not publicly known, needs careful handling (includes private/confidential/restricted plus strategic plans, IP). Critical: essential for core mission/function; loss significantly impacts organizational goals",t:"3.3 Data Classifications"},
+{f:"What is PII vs PHI?",b:"PII (Personally Identifiable Information): any info identifying an individual (name, SSN, birthdate, biometrics). PHI (Protected Health Information): health-related info tied to a specific person, covered by HIPAA",t:"3.3 Data Classifications"},
+{f:"List the three data states.",b:"Data at rest, Data in transit, Data in use",t:"3.3 Data States"},
+{f:"How is data at rest commonly encrypted in the cloud?",b:"Storage Service Encryption (CSPs encrypt by default before persisting to disks/blob/file/queue storage), Full Disk Encryption (BitLocker/dm-crypt), Transparent Data Encryption (TDE) for databases",t:"3.3 Data at Rest"},
+{f:"How is data in transit typically encrypted?",b:"TLS or HTTPS — TLS has largely replaced SSL",t:"3.3 Data in Transit"},
+{f:"How is data in use protected, with an example?",b:"Data in RAM (volatile, erased on power-down) during app use; example: Credential Guard encrypts password hashes in memory on Windows",t:"3.3 Data in Use"},
+{f:"What is data sovereignty?",b:"Digital data is subject to the laws of the country where it was created/stored — moving data out of the EU does not remove GDPR requirements",t:"3.3 Data Sovereignty"},
+{f:"What is geolocation used for in security?",b:"Uses GPS (more accurate than IP) to locate a mobile device, useful if lost/stolen, and as 'somewhere you are' in authentication decisions",t:"3.3 Geolocation"},
+{f:"What is the key difference between encryption and hashing?",b:"Encryption is two-way (reversible with the right key) — used for bulk data encryption and digital signatures. Hashing is one-way (irreversible if properly designed) — used for integrity verification and password storage",t:"3.3 Encryption vs Hashing"},
+{f:"What is data masking?",b:"Showing only partial data in a field (e.g., a credit card shown as **** **** **** 1234), implemented at the database or frontend code level",t:"3.3 Methods to Secure Data"},
+{f:"What is tokenization and how does it compare to encryption?",b:"Replaces meaningful data with a randomly generated token while the original data is held in a vault; stateless and stronger than encryption since keys aren't stored locally",t:"3.3 Methods to Secure Data"},
+{f:"What is pseudonymization?",b:"De-identification where PII fields are replaced with artificial identifiers/pseudonyms; reversal requires access to another data source",t:"3.3 Methods to Secure Data"},
+{f:"What is anonymization and its limitation?",b:"Removing all relevant data so the original subject can't be identified; only effective if you do NOT need the identity data afterward",t:"3.3 Methods to Secure Data"},
+{f:"What are geographic restrictions for data?",b:"Limiting access based on physical location, restricting attempts from certain countries/IPs, often for regulatory/security reasons",t:"3.3 Methods to Secure Data"},
+{f:"What is obfuscation?",b:"Intentionally making data less readable/understandable (e.g., code obfuscation, data masking) while retaining functionality, preventing easy interpretation if accessed",t:"3.3 Methods to Secure Data"},
+{f:"How does segmentation help secure data?",b:"Dividing data into smaller isolated segments via partitioning/logical separation, limiting breach impact to one segment instead of the whole dataset",t:"3.3 Methods to Secure Data"},
+{f:"What are permission restrictions (access control) for data?",b:"Controls access based on user roles/permissions (e.g., RBAC on Windows), ensuring only authorized individuals access sensitive info",t:"3.3 Methods to Secure Data"},
+{f:"List the stages of the data lifecycle (functional perspective).",b:"Creation, Classification, Storage, Usage, Archive, Destruction",t:"3.3 Data Lifecycle"},
+{f:"What happens during the Creation stage of the data lifecycle?",b:"Data can be created by users (e.g., creating a file) or by systems (e.g., a system logging access)",t:"3.3 Data Lifecycle"},
+{f:"Why is the Classification stage important early in the data lifecycle?",b:"To ensure data is handled properly and protected by adequate security controls based on its classification",t:"3.3 Data Lifecycle"},
+{f:"What does the Usage stage of the data lifecycle refer to?",b:"Anytime data is in use or in transit over a network",t:"3.3 Data Lifecycle"},
+{f:"What is the purpose of the Archive stage and a data retention policy?",b:"Archival complies with laws/regulations requiring retention; a data retention policy ensures data is kept 'as long as necessary' per company policy or regulation",t:"3.3 Data Lifecycle"},
+{f:"What is the risk of not properly destroying data?",b:"Data kept longer than needed, or not destroyed unreadably, creates additional risk",t:"3.3 Data Lifecycle"},
+{f:"What is the difference between resilience and recovery?",b:"Resilience: ability to remain functional despite disruptions (proactive shield, via redundancy/failover). Recovery: restoring data/systems after an incident (reactive repair kit, via backup/DR/BCP)",t:"3.4 Key Terms"},
+{f:"How does load balancing support resilience vs recovery?",b:"Resilience: distributes workload, prevents single-server overload, simplifies scalability. Recovery: faster failover by redirecting traffic from failed servers, simplifies isolating failed servers",t:"3.4 High Availability"},
+{f:"How does clustering support resilience vs recovery?",b:"Resilience: hardware redundancy via a single logical entity from multiple servers, others take over if one fails. Recovery: automatic failover and data replication for quick restoration (commonly used with backend databases)",t:"3.4 High Availability"},
+{f:"How do multi-cloud systems support resilience and recovery?",b:"Resilience: distributing data/apps across providers creates redundancy/fault tolerance. Recovery: enables rapid failover to unaffected platforms, mitigating vendor lock-in",t:"3.4 Multi-Cloud"},
+{f:"How does platform diversity support resilience and recovery?",b:"Resilience: mixing OSes/cloud providers/vendors reduces single points of failure. Recovery: allows shifting operations to unaffected platforms while addressing the compromised one",t:"3.4 Platform Diversity"},
+{f:"What is Continuity of Operations (COOP)?",b:"Plans outlining procedures/resources to maintain critical business functions during disruptions, including backup/recovery strategies and alternative communications",t:"3.4 Continuity of Operations"},
+{f:"What are the three types of recovery sites?",b:"Hot, Warm, Cold",t:"3.4 Recovery Sites"},
+{f:"Describe a cold site (cost/effort to recover).",b:"Just data center space, power, and connectivity ready and waiting; cost = LOW, effort to recover = HIGH (must move hardware in and set up)",t:"3.4 Recovery Sites"},
+{f:"Describe a warm site (cost/effort to recover).",b:"Hardware pre-installed and bandwidth pre-configured; cost = MEDIUM, effort to recover = MEDIUM (just load software/data)",t:"3.4 Recovery Sites"},
+{f:"Describe a hot site (cost/effort to recover).",b:"Production environment fully replicated and running for immediate cutover; cost = HIGH, effort to recover = LOW — a must for mission-critical sites",t:"3.4 Recovery Sites"},
+{f:"What geographic considerations apply to recovery sites?",b:"Distance vs practicality, location selection for recoverability (CSPs maintain 300+ miles between sites for natural disaster protection), offsite storage of backups",t:"3.4 Geographic Considerations"},
+{f:"What are the three components of capacity planning?",b:"People (skilled workforce), Technology (security tools like firewalls/IDS/IPS/anti-malware/scanners), Infrastructure (storage/network/processing for peak loads and elasticity)",t:"3.4 Capacity Planning"},
+{f:"What is a tabletop exercise?",b:"A paper-based, hypothetical 'structured walkthrough' where the IR team reviews the incident response plan and provides feedback for updates",t:"3.4 Testing"},
+{f:"What is a failover test?",b:"Actually shutting down the primary site to test whether the recovery site properly handles the load — must be carefully planned since it can impact production",t:"3.4 Testing"},
+{f:"What is a simulation test?",b:"Functional exercises testing plans in a simulated operational environment without affecting production systems",t:"3.4 Testing"},
+{f:"What is parallel processing testing?",b:"Activates the DR site to run alongside (in parallel with) the main site during the test, enabling testing with less risk than full failover",t:"3.4 Testing"},
+{f:"What backup considerations should you know for the exam?",b:"Onsite/offsite storage, frequency, encryption, snapshots, recovery, replication, journaling",t:"3.4 Backups"},
+{f:"What is the difference between onsite and offsite backups?",b:"Onsite: stored at the same physical location as original data (e.g., external drive). Offsite: stored separately (e.g., cloud, remote data center)",t:"3.4 Backups"},
+{f:"What is a snapshot backup?",b:"A point-in-time copy of data allowing recovery to that specific state",t:"3.4 Backups"},
+{f:"What is journaling in the context of backups?",b:"Transaction logging that records all data changes sequentially, enabling point-in-time recovery or roll-forward recovery by replaying transactions (common in relational databases)",t:"3.4 Backups"},
+{f:"What backup type provides the fastest recovery time (exam fact)?",b:"A FULL backup",t:"3.4 Backups"},
+{f:"What is a UPS and what does it protect against?",b:"Uninterruptible Power Supply — a battery providing short-term power (minutes) during outages, and cleans grid power (eliminates spikes/surges/voltage fluctuations) to protect systems and data",t:"3.4 Power"},
+{f:"What is a generator used for and how long can it sustain power?",b:"A standby power source (diesel/gas/propane/natural gas) providing electricity for hours or days, used by hospitals and data centers for sustained operation",t:"3.4 Power"},
+];
+
+let order = cards.map((_,i)=>i);
+let pos = 0;
+let flipped = false;
+
+const cardEl = document.getElementById('card');
+const textEl = document.getElementById('cardtext');
+const counterEl = document.getElementById('counter');
+const tagEl = document.getElementById('tagbadge');
+const hintEl = document.getElementById('hint');
+
+function render(){
+  const c = cards[order[pos]];
+  textEl.textContent = flipped ? c.b : c.f;
+  counterEl.textContent = `Card ${pos+1} of ${cards.length}`;
+  tagEl.textContent = c.t;
+  hintEl.textContent = flipped ? "Tap card to flip back" : "Tap card to flip";
+  cardEl.style.background = flipped ? '#001a00' : '#0a0a0a';
+}
+
+cardEl.addEventListener('click', ()=>{ flipped = !flipped; render(); });
+document.getElementById('next').addEventListener('click', ()=>{ pos = (pos+1)%cards.length; flipped=false; render(); });
+document.getElementById('prev').addEventListener('click', ()=>{ pos = (pos-1+cards.length)%cards.length; flipped=false; render(); });
+document.getElementById('shuffle').addEventListener('click', ()=>{
+  for(let i=order.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [order[i],order[j]]=[order[j],order[i]];
+  }
+  pos = 0; flipped=false; render();
+});
+
+render();
+</script>
+</body>
+</html>
