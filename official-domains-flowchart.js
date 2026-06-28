@@ -7,7 +7,7 @@ window.SECPLUS_OFFICIAL_DOMAINS = [
     code: "1.0",
     title: "General Security Concepts",
     pct: 12,
-    pdf: "pdfs/1-general-security-concepts.pdf",
+    pdf: "1-general-security-concepts.pdf",
     summary: "Security control categories and types, CIA/AAA, Zero Trust, change management, and cryptographic fundamentals.",
     flashcardDomains: [1],
     subtopics: [
@@ -48,7 +48,7 @@ window.SECPLUS_OFFICIAL_DOMAINS = [
     code: "2.0",
     title: "Threats, Vulnerabilities & Mitigations",
     pct: 22,
-    pdf: "pdfs/2-threats-vulnerabilities.pdf",
+    pdf: "2-threats-vulnerabilities.pdf",
     summary: "Threat actors, motivations, vectors, attack surfaces, vulnerabilities, malware indicators, and mitigation techniques.",
     flashcardDomains: [2],
     subtopics: [
@@ -89,7 +89,7 @@ window.SECPLUS_OFFICIAL_DOMAINS = [
     code: "3.0",
     title: "Security Architecture",
     pct: 18,
-    pdf: "pdfs/3-security-architecture.pdf",
+    pdf: "3-security-architecture.pdf",
     summary: "Cloud and on-prem models, shared responsibility, segmentation, SDN/IaC, data protection, ICS/IoT, and resilience.",
     flashcardDomains: [3],
     subtopics: [
@@ -130,7 +130,7 @@ window.SECPLUS_OFFICIAL_DOMAINS = [
     code: "4.0",
     title: "Security Operations",
     pct: 28,
-    pdf: "pdfs/4-security-operations.pdf",
+    pdf: "4-security-operations.pdf",
     summary: "Largest domain — baselines, hardening, mobile/wireless, vuln management, monitoring, IAM, automation, and incident response.",
     flashcardDomains: [4, 5],
     subtopics: [
@@ -191,7 +191,7 @@ window.SECPLUS_OFFICIAL_DOMAINS = [
     code: "5.0",
     title: "Security Program Management & Oversight",
     pct: 20,
-    pdf: "pdfs/5-governance-risk-compliance.pdf",
+    pdf: "5-governance-risk-compliance.pdf",
     summary: "Governance hierarchy, risk management, third-party risk, compliance, audits, and security awareness.",
     flashcardDomains: [6],
     subtopics: [
